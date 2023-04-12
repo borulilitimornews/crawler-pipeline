@@ -1,0 +1,6 @@
+nutch/
+solr/
+src/data
+src/lid_model
+Pipfile.lock
+.DS_Store
