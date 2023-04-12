@@ -9,7 +9,7 @@ class MainGetInitalCorpus:
 
     def __init__(self) -> None:
         self.start_row = 0
-        self.rows = 3  # 65687
+        self.rows = 1  # 65687
         self.main_seeder = MainSeeder()
         self.lang_proba_threshold = self.main_seeder.lang_proba_threshold
         self.get_initial_corpus = GetInitialCorpus(
