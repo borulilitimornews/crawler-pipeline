@@ -9,16 +9,18 @@ from utils import load_corpus, load_lid_model
 class GetSeedWords:
     """ 
     The seeder class is composed of the following task:
-    1. Get a random text sample with a ratio of 10% from the text corpus.
+    1. Get a random text sample with a sample ratio from the text corpus.
     2. Tokenize the text sample into tokens (or words) using TetunWordTokenizer.
-    3. Applying LID model to get only tokens with the proba of being Tetun >= 0.95.
+    3. Applying LID model to get only tokens with the proba of being Tetun >= predefined threshold.
     4. Count the word frequency and calculate its probability of distribution.
     5. Sample three unique words and save in the seed file.
     """
 
     def __init__(
-        self, target_lang: str, corpus_sample_ratio: float,
-        lang_proba_threshold: float, num_seed_words_sample: int
+        self, target_lang: str,
+        corpus_sample_ratio: float,
+        lang_proba_threshold: float,
+        num_seed_words_sample: int
     ) -> None:
         """ Initiate the sample ration and the probability threshold."""
         self.corpus_sample_ratio = corpus_sample_ratio
@@ -28,7 +30,7 @@ class GetSeedWords:
 
     def get_sample_corpus(self, corpus_file_path: Path) -> List[str]:
         """
-        Generate a random text sample with a ratio of 10% from the text corpus.
+        Generate a random text sample with a sample ratio from the text corpus.
 
         :param corpus_file_path: a path to the corpus file.
         :param corpus_sample_ratio: the ratio of sample to get from the corpus text.
@@ -56,7 +58,6 @@ class GetSeedWords:
         tokenizer = TetunWordTokenizer()
         doc_lower = str(doc).lower()
         words = tokenizer.tokenize(doc_lower)
-        #print(f"Tokens: {words[:10]}")
 
         return words
 
@@ -78,7 +79,6 @@ class GetSeedWords:
         for i, probs in enumerate(pred_probs):
             for j, lang in enumerate(lid_model.classes_):
                 if lang == self.target_lang and round(probs[j], 2) >= self.lang_proba_threshold:
-                   #print(words[i], probs[j])
                     tetun_words.append(words[i])
 
         return tetun_words

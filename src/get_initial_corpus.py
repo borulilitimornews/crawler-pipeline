@@ -10,7 +10,8 @@ class GetInitialCorpus:
     This class is mainly responsible to:
     1. Process the crawled documents indexed in Solr.
     2. Read each line of each document and apply the LID model.
-    3. Save to the initial corpus file the text lines that has a probability score >= 95%
+    3. Save to the initial corpus file the text lines that has a probability 
+    score >= predefined threshold
     """
 
     def __init__(self, solr_api_url: str, start_row: int, rows: int, lang_proba_treshold) -> None:
@@ -42,11 +43,11 @@ class GetInitialCorpus:
 
     def is_tetun_text(self, lid_model_file_path: Path, text: str) -> bool:
         """
-        Check if the given text has a probability of being Tetun >= 0.95.
+        Check if the given text has a probability of being Tetun >= predefined threshold.
 
         :param lid_model_file_path: a path to the LID model file.
         :param text: an input text.
-        :return: True if the given text has a probability >= 0.95, otherwise False
+        :return: True if the given text has a probability >= predefined threshold, otherwise False
         """
 
         lid_model = load_lid_model(lid_model_file_path)
@@ -65,7 +66,7 @@ class GetInitialCorpus:
         Generate the corpus as per the following steps:
         1. For each document, read each line.
         2. Select only lines with a length higher than 50.
-        3. Add to the corpus if it has a probability of being Tetun >= 0.95.
+        3. Add to the corpus if it has a probability of being Tetun >= predefined threshold.
 
         :param start: the start row.
         :param rows: a total of rows.
