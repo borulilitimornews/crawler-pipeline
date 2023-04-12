@@ -8,7 +8,7 @@ from utils import load_corpus, load_lid_model
 
 class GetSeedWords:
     """ 
-    The seeder class is composed of the following task:
+    The GetSeedWord class is composed of the following tasks:
     1. Get a random text sample with a sample ratio from the text corpus.
     2. Tokenize the text sample into tokens (or words) using TetunWordTokenizer.
     3. Applying LID model to get only tokens with the proba of being Tetun >= predefined threshold.
