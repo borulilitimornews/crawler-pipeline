@@ -4,7 +4,7 @@ from typing import List
 
 class GetFinalCorpus:
     """
-    A class to lilter text input text that meets the predefined filter conditions 
+    A class to filter text input text that meets the predefined filter conditions 
     and white lines with more than two times in a consecutive order.
     """
 

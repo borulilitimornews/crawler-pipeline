@@ -6,7 +6,7 @@ from typing import List, Dict
 from utils import load_corpus, load_lid_model
 
 
-class SeedWords:
+class GetSeedWords:
     """ 
     The seeder class is composed of the following task:
     1. Get a random text sample with a ratio of 10% from the text corpus.
@@ -16,20 +16,28 @@ class SeedWords:
     5. Sample three unique words and save in the seed file.
     """
 
-    def get_sample_corpus(
-        self, corpus_file_path: Path, sample_ratio: float = 0.1
-    ) -> List[str]:
+    def __init__(
+        self, target_lang: str, corpus_sample_ratio: float,
+        lang_proba_threshold: float, num_seed_words_sample: int
+    ) -> None:
+        """ Initiate the sample ration and the probability threshold."""
+        self.corpus_sample_ratio = corpus_sample_ratio
+        self.lang_proba_threshold = lang_proba_threshold
+        self.num_seed_words_sample = num_seed_words_sample
+        self.target_lang = target_lang
+
+    def get_sample_corpus(self, corpus_file_path: Path) -> List[str]:
         """
         Generate a random text sample with a ratio of 10% from the text corpus.
 
         :param corpus_file_path: a path to the corpus file.
-        :param sample_ration: the ratio of sample to get from the corpus text.
+        :param corpus_sample_ratio: the ratio of sample to get from the corpus text.
         :return: a list of corpus.
         """
         corpus = load_corpus(corpus_file_path)
 
         corpus_size = len(corpus)
-        sample_size = int(sample_ratio * corpus_size)
+        sample_size = int(self.corpus_sample_ratio * corpus_size)
         sample_corpus = random.sample(corpus, sample_size)
 
         return sample_corpus
@@ -52,13 +60,10 @@ class SeedWords:
 
         return words
 
-    def get_tetun_words(
-        self, corpus_file_path: Path,
-        lid_model_file_path: Path,
-        threshold: float = 0.95
-    ) -> List[str]:
+    def get_target_lang_words(self, corpus_file_path: Path, lid_model_file_path: Path) -> List[str]:
         """
-        Get only the words with a probability of being Tetun >= 0.95
+        Get the words of the target language with a probability of being in the 
+        target language >= threshold. The target lang in this work is 'Tetun' 
 
         :param lid_model_file_path: a path to the LID model file.
         :param words: a list of words.
@@ -72,16 +77,13 @@ class SeedWords:
         pred_probs = lid_model.predict_proba(words)
         for i, probs in enumerate(pred_probs):
             for j, lang in enumerate(lid_model.classes_):
-                if lang == 'tet' and round(probs[j], 2) >= threshold:
+                if lang == self.target_lang and round(probs[j], 2) >= self.lang_proba_threshold:
                    #print(words[i], probs[j])
                     tetun_words.append(words[i])
 
         return tetun_words
 
-    def calculate_proba_distribution(
-        self, corpus_file_path: Path,
-        lid_model_file_path: Path
-    ) -> Dict:
+    def calculate_proba_distribution(self, corpus_file_path: Path, lid_model_file_path: Path) -> Dict:
         """
         Count the word frequency and calculate its probability of distribution.
 
@@ -90,7 +92,8 @@ class SeedWords:
         :return: a dictionary contains words and their distribution probability.
         """
 
-        words = self.get_tetun_words(corpus_file_path, lid_model_file_path)
+        words = self.get_target_lang_words(
+            corpus_file_path, lid_model_file_path)
 
         freq_dict = Counter(words)
         total_words = len(words)
@@ -100,8 +103,9 @@ class SeedWords:
         return probs_dist
 
     def generate_seed_words(
-        self, corpus_file_path: Path, lid_model_file_path: Path,
-        seed_words_file_path: Path, num_samples: int = 3
+        self, corpus_file_path: Path,
+        lid_model_file_path: Path,
+        seed_words_file_path: Path
     ) -> str:
         """
         Sample three unique words and save in the seed file.
@@ -120,7 +124,7 @@ class SeedWords:
         sequence_words = list(proba_dist.keys())
         weights = list(proba_dist.values())
         samples = set()
-        while len(samples) < num_samples:
+        while len(samples) < self.num_seed_words_sample:
             sample = random.choices(sequence_words, weights)[0]
             samples.add(sample)
             sequence_words.remove(sample)

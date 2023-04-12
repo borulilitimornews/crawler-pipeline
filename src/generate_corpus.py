@@ -10,9 +10,11 @@ class MainGetInitalCorpus:
     def __init__(self) -> None:
         self.start_row = 0
         self.rows = 3  # 65687
-        self.get_initial_corpus = GetInitialCorpus(
-            self.SOLR_API_URL, self.start_row, self.rows)
         self.main_seeder = MainSeeder()
+        self.lang_proba_threshold = self.main_seeder.lang_proba_threshold
+        self.get_initial_corpus = GetInitialCorpus(
+            self.SOLR_API_URL, self.start_row, self.rows,
+            self.lang_proba_threshold)
         self.lid_model_file_path = self.main_seeder.lid_model_file_path
         self.initial_corpus_file_path = Path('src/data/initial_corpus.txt')
 

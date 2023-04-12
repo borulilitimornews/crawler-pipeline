@@ -3,11 +3,10 @@ import tldextract
 from pathlib import Path
 from typing import List, Optional
 from googlesearch import search
-from get_seed_word import SeedWords
 from utils import *
 
 
-class GetUrl:
+class GetSeedUrl:
     """
     The GetURL class is composed of the following tasks:
     1. Check if the domain of the generated seed is not in the excluded domain list.
@@ -121,7 +120,7 @@ class GetUrl:
     def generate_seed_urls(
         self, corpus_file_path: Path, seed_words_file_path: Path,
         nutch_seed_file_path: Path, lid_model_file_path: Path,
-        domain_file_path: Path, seed_words: Optional[str] = None
+        domain_file_path: Path, gen_seed_words_func: callable
     ) -> None:
         """
         Get seed urls returned by the Google search for the input seed words.
@@ -131,16 +130,14 @@ class GetUrl:
         :param seed_file_path: a path to the seed file.
         :param domain_file_path: a path to the domain file.
         :param nutch_seed_file_path: a path to the seed url file within the nutch folder.
+        :param seed_words: a function to generate seed words.
 
         :returns: a list of seed urls and domains.
         """
 
-        seeder = SeedWords()
-        if seed_words is not None:
-            query = seed_words
-        else:
-            query = seeder.generate_seed_words(
-                corpus_file_path, lid_model_file_path, seed_words_file_path)
+        # gen_seed_word_func = generate_seed_words() of the SeedWords class
+        query = gen_seed_words_func(
+            corpus_file_path, lid_model_file_path, seed_words_file_path)
 
         seeds = self.get_seed_urls(query, nutch_seed_file_path)
         domains = self.get_domains(seeds, domain_file_path)

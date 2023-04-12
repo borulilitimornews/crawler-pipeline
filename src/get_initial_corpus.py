@@ -13,10 +13,11 @@ class GetInitialCorpus:
     3. Save to the initial corpus file the text lines that has a probability score >= 95%
     """
 
-    def __init__(self, solr_api_url: str, start_row: int, rows: int) -> None:
+    def __init__(self, solr_api_url: str, start_row: int, rows: int, lang_proba_treshold) -> None:
         self.solr_api_url = solr_api_url
         self.start_row = start_row
         self.rows = rows
+        self.lang_proba_treshold = lang_proba_treshold
 
     def get_documents(self) -> List[str]:
         """
@@ -39,7 +40,7 @@ class GetInitialCorpus:
 
         return docs
 
-    def is_tetun_text(self, lid_model_file_path: Path, text: str, threshold: float = 0.95) -> bool:
+    def is_tetun_text(self, lid_model_file_path: Path, text: str) -> bool:
         """
         Check if the given text has a probability of being Tetun >= 0.95.
 
@@ -54,7 +55,7 @@ class GetInitialCorpus:
         pred_probs = lid_model.predict_proba([text])
         for probs in pred_probs:
             for j, lang in enumerate(lid_model.classes_):
-                if lang == 'tet' and round(probs[j], 2) >= threshold:
+                if lang == 'tet' and round(probs[j], 2) >= self.lang_proba_treshold:
                     tetun_text = True
 
         return tetun_text
