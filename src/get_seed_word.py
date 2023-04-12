@@ -8,7 +8,7 @@ from utils import load_corpus, load_lid_model
 
 class GetSeedWords:
     """ 
-    The GetSeedWord class is composed of the following tasks:
+    The GetSeedWords class is composed of the following tasks:
     1. Get a random text sample with a sample ratio from the text corpus.
     2. Tokenize the text sample into tokens (or words) using TetunWordTokenizer.
     3. Applying LID model to get only tokens with the proba of being Tetun >= predefined threshold.
@@ -22,7 +22,7 @@ class GetSeedWords:
         lang_proba_threshold: float,
         num_seed_words_sample: int
     ) -> None:
-        """ Initiate the sample ration and the probability threshold."""
+        """ Initiate the sample ratio and the probability threshold."""
         self.corpus_sample_ratio = corpus_sample_ratio
         self.lang_proba_threshold = lang_proba_threshold
         self.num_seed_words_sample = num_seed_words_sample
@@ -61,10 +61,9 @@ class GetSeedWords:
 
         return words
 
-    def get_target_lang_words(self, corpus_file_path: Path, lid_model_file_path: Path) -> List[str]:
+    def get_tetun_words(self, corpus_file_path: Path, lid_model_file_path: Path) -> List[str]:
         """
-        Get the words of the target language with a probability of being in the 
-        target language >= threshold. The target lang in this work is 'Tetun' 
+        Get the words with a probability of being Tetun >= threshold. 
 
         :param lid_model_file_path: a path to the LID model file.
         :param words: a list of words.
@@ -92,7 +91,7 @@ class GetSeedWords:
         :return: a dictionary contains words and their distribution probability.
         """
 
-        words = self.get_target_lang_words(
+        words = self.get_tetun_words(
             corpus_file_path, lid_model_file_path)
 
         freq_dict = Counter(words)
