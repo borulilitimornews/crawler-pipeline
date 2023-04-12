@@ -3,7 +3,7 @@ import tldextract
 from pathlib import Path
 from typing import List, Optional
 from googlesearch import search
-from utils import *
+from utils import load_corpus
 
 
 class GetSeedUrl:
