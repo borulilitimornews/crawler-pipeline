@@ -65,18 +65,18 @@ class GetSeedWords:
         """
         Get the words with a probability of being Tetun >= threshold. 
 
-        :param lid_model_file_path: a path to the LID model file.
-        :param words: a list of words.
+        :param corpus_file_path: a path to the corpus file.
+        :param lid_model_file_path: a path to the Tetun LID model file.
         :return: a list of words
         """
 
         words = self.tokenize_sample_corpus(corpus_file_path)
 
         tetun_words = []
-        lid_model = load_lid_model(lid_model_file_path)
-        pred_probs = lid_model.predict_proba(words)
+        tetun_lid_model = load_lid_model(lid_model_file_path)
+        pred_probs = tetun_lid_model.predict_proba(words)
         for i, probs in enumerate(pred_probs):
-            for j, lang in enumerate(lid_model.classes_):
+            for j, lang in enumerate(tetun_lid_model.classes_):
                 if lang == self.target_lang and round(probs[j], 2) >= self.lang_proba_threshold:
                     tetun_words.append(words[i])
 
