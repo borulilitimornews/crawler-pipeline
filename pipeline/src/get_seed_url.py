@@ -150,5 +150,6 @@ class GetSeedUrl:
         seeds = self.get_seed_urls(query, nutch_seed_file_path)
         domains = self.get_domains(seeds, domain_file_path)
 
+        # Print new URLs
         print(f"\nNew url(s):\n" + "\n".join(list(seeds)))
         print(f"\nNew domain(s):\n" + "\n".join(list(domains)))

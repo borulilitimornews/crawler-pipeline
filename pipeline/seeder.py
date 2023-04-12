@@ -1,5 +1,5 @@
-from get_seeds.get_seed_word import GetSeedWords
-from get_seeds.get_seed_url import GetSeedUrl
+from src.get_seed_word import GetSeedWords
+from src.get_seed_url import GetSeedUrl
 from pathlib import Path
 
 
@@ -34,7 +34,7 @@ class MainSeeder:
             self.lang_proba_threshold,
             self.n_seed_word_sample,
         )
-        # This is used in the 'run' as a param of the 'generate_seed_urls'
+        # This is used in the 'def run' as a param of the 'generate_seed_urls'
         self.generate_get_seed_words = get_seed_word.generate_seed_words
 
         self.get_url = GetSeedUrl(
