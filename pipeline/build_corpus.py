@@ -11,8 +11,6 @@ class BuildCorpus:
         self.main_seeder = MainSeeder()
         self.get_initial_corpus = GetInitialCorpus(
             config.SOLR_API_URL,
-            # config.START_ROW,
-            # config.ROWS,
             config.LANGUAGE,
             config.LANG_PROBA_THRESHOLD,
             config.LID_MODEL_FILE_PATH,

@@ -8,7 +8,7 @@ from common_utils.tetun_lid import TetunLid
 class GetInitialCorpus:
     """
     This class is mainly responsible to:
-    (1) Get total of documents indexed in the Solr.
+    (1) Get total of documents from the Solr.
     (2) Retrieve and process the crawled documents indexed in the Solr.
     (3) Apply the LID model and filter out documents that do not satisfy the predefined conditions.
     (4) For each line of the documents having a length > 50, save them to the initial corpus file.
@@ -17,15 +17,11 @@ class GetInitialCorpus:
     def __init__(
         self,
         solr_api_url: str,
-        # start_row: int,
-        # rows: int,
         tetun_lang: str,
         lang_proba_treshold: float,
         lid_model_file_path: Path,
     ) -> None:
         self.solr_api_url = solr_api_url
-        # self.start_row = start_row
-        # self.rows = rows
         self.tetun_lang = tetun_lang
         self.lang_proba_treshold = lang_proba_treshold
         self.tetun_lid = TetunLid(self.tetun_lang, self.lang_proba_treshold)
@@ -55,8 +51,8 @@ class GetInitialCorpus:
         params = {
             "q": "*:*",
             "wt": "json",
-            "start": 0,  # self.start_row
-            "rows": self.get_total_documents(),  # self.rows
+            "start": 0,
+            "rows": self.get_total_documents(),
         }
 
         response = requests.get(self.solr_api_url, params=params)
@@ -72,12 +68,13 @@ class GetInitialCorpus:
     def generate_initial_corpus(self) -> List[str]:
         """
         Generate text corpus and:
-        (1) Get Tetun corpus with a probability >= threshold.
+        (1) Get Tetun text having a probability >= threshold.
         (2) Select text having a length > 50 and save them to the initial corpus file.
 
         :param initial corpus_file_path: a path to initial corpus file.
         :return: a list contains initial corpus.
         """
+
         initial_corpus = []
         for doc in self.get_documents():
             text = doc.split("\n")
@@ -150,6 +147,7 @@ class GetFinalCorpus:
         :param max_consecutive_newlines: the maximum newlines allowed after each document.
         :return: a conclusion message.
         """
+        
         unique_sentences = []
         seen_sentences = set()
         consecutive_newlines = 0

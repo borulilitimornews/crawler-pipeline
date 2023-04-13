@@ -149,7 +149,7 @@ class GetSeedUrl:
         :param nutch_seed_file_path: a path to the seed url file within the nutch folder.
         :param lid_model_file_path: a path to the LID model file.
         :param domain_file_path: a path to the domain file.
-        :param seed_words: a function to generate seed words.
+        :param generate_seed_words_func: a function to generate seed words.
         """
 
         # generate_seed_word_func = generate_seed_words() of the SeedWords class
