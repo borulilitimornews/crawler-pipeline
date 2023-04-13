@@ -45,16 +45,16 @@ class BuildCorpus:
     END_PATTERNS = ["...", "…", "___", ",,,", "[…]", "download", "»", "«", "→"]
 
     def __init__(self) -> None:
-        self.start_row = 1
-        self.rows = 3  # 65687
+        # self.start_row = 1
+        # self.rows = 3
         self.main_seeder = MainSeeder()
         self.lang_proba_threshold = self.main_seeder.lang_proba_threshold
         self.lid_model_file_path = self.main_seeder.lid_model_file_path
         self.tetun_lang = self.main_seeder.tetun_language
         self.get_initial_corpus = GetInitialCorpus(
             self.SOLR_API_URL,
-            self.start_row,
-            self.rows,
+            # self.start_row,
+            # self.rows,
             self.tetun_lang,
             self.lang_proba_threshold,
             self.lid_model_file_path,

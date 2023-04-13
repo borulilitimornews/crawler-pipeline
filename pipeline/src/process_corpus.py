@@ -8,27 +8,37 @@ from common_utils.tetun_lid import TetunLid
 class GetInitialCorpus:
     """
     This class is mainly responsible to:
-    (1) Retrieve and process the crawled documents indexed in Solr.
-    (2) Apply the LID model and filter out documents that do not satisfy the predefined conditions.
-    (3) For each line of the documents having a length > 50, save them to the initial corpus file.
+    (1) Get total of documents indexed in the Solr.
+    (2) Retrieve and process the crawled documents indexed in the Solr.
+    (3) Apply the LID model and filter out documents that do not satisfy the predefined conditions.
+    (4) For each line of the documents having a length > 50, save them to the initial corpus file.
     """
 
     def __init__(
         self,
         solr_api_url: str,
-        start_row: int,
-        rows: int,
+        # start_row: int,
+        # rows: int
         tetun_lang: str,
         lang_proba_treshold: float,
         lid_model_file_path: Path,
     ) -> None:
         self.solr_api_url = solr_api_url
-        self.start_row = start_row
-        self.rows = rows
+        # self.start_row = start_row
+        # self.rows = rows
         self.tetun_lang = tetun_lang
         self.lang_proba_treshold = lang_proba_treshold
         self.tetun_lid = TetunLid(self.tetun_lang, self.lang_proba_treshold)
         self.lid_model_file_path = lid_model_file_path
+
+    def get_total_documents(self) -> int:
+        """ Get total documents from the Solr. """
+        params = {"q": "*:*", "rows": 0}
+        response = requests.get(self.solr_api_url, params=params)
+        response_json = response.json()
+        total_doc = response_json["response"]["numFound"]
+
+        return total_doc
 
     def get_documents(self) -> List[str]:
         """
@@ -40,8 +50,8 @@ class GetInitialCorpus:
         params = {
             "q": "*:*",
             "wt": "json",
-            "start": self.start_row,
-            "rows": self.rows,
+            "start": 0,  # self.start_row,
+            "rows": self.get_total_documents(),  # self.rows
         }
 
         response = requests.get(self.solr_api_url, params=params)
