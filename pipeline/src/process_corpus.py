@@ -33,6 +33,7 @@ class GetInitialCorpus:
 
     def get_total_documents(self) -> int:
         """ Get total documents from the Solr. """
+
         params = {"q": "*:*", "rows": 0}
         response = requests.get(self.solr_api_url, params=params)
         response_json = response.json()
