@@ -32,7 +32,11 @@ class GetInitialCorpus:
         self.lid_model_file_path = lid_model_file_path
 
     def get_total_documents(self) -> int:
-        """ Get total documents from the Solr. """
+        """ 
+        Get total documents from the Solr. 
+
+        :return: the total documents. 
+        """
 
         params = {"q": "*:*", "rows": 0}
         response = requests.get(self.solr_api_url, params=params)
@@ -72,6 +76,7 @@ class GetInitialCorpus:
         (2) Select text having a length > 50 and save them to the initial corpus file.
 
         :param initial corpus_file_path: a path to initial corpus file.
+        :return: a list contains initial corpus.
         """
         initial_corpus = []
         for doc in self.get_documents():
