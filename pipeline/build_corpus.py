@@ -14,30 +14,39 @@ class BuildCorpus:
         "labels",
         "etiquetas:",
         "address",
+        "street",
         "from",
         "http",
         "»",
         "«",
+        "←",
     ]
     IN_PATTERNS = [
         "div>",
+        "span>",
+        "p>",
+        "h1>",
+        "h2>",
+        "h3>",
+        "h4>",
         "ul>",
         "ol>",
         "li>",
         "a>",
-        "span>",
-        "p>",
-        "+670",
-        "670)",
+        "table>",
+        "th>",
+        "td>",
         " | ",
         "headline",
         "copyright",
+        "+670",
+        "670)",
     ]
-    END_PATTERNS = ["...", "…", "download", "»", "«"]
+    END_PATTERNS = ["...", "…", "___", ",,,", "[…]", "download", "»", "«", "→"]
 
     def __init__(self) -> None:
-        self.start_row = 0
-        self.rows = 10  # 65687
+        self.start_row = 1
+        self.rows = 3  # 65687
         self.main_seeder = MainSeeder()
         self.lang_proba_threshold = self.main_seeder.lang_proba_threshold
         self.lid_model_file_path = self.main_seeder.lid_model_file_path

@@ -56,7 +56,7 @@ class GetInitialCorpus:
 
     def generate_initial_corpus(self) -> List[str]:
         """
-        Generate text corpus as per the following steps:
+        Generate text corpus and:
         (1) Get Tetun corpus with a probability >= threshold.
         (2) Select text having a length > 50 and save them to the initial corpus file.
 
@@ -74,6 +74,7 @@ class GetInitialCorpus:
                 if len(text.strip()) > 50:
                     print("Initial added: ", text)
                     initial_corpus.append(text + "\n")
+
             # Add another newline to the end of each document.
             initial_corpus.append("\n")
 
@@ -148,18 +149,18 @@ class GetFinalCorpus:
                 continue
 
             if line not in seen_sentences:
-                if line == "":
+                if len(line) == 0:
                     consecutive_newlines += 1
                 else:
                     consecutive_newlines = 0
                 if (
-                    line == ""
+                    len(line) == 0
                     and consecutive_newlines >= max_consecutive_newlines
                 ):
                     continue
                 else:
                     unique_sentences.append(line)
-                    if not line == "":
+                    if not len(line) == 0:
                         seen_sentences.add(line)
                     # print("Final added: ", line)
 
