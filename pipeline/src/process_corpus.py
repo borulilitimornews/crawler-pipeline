@@ -171,7 +171,7 @@ class GetFinalCorpus:
                     continue
                 else:
                     unique_sentences.append(line)
-                    if not len(line) == 0:
+                    if len(line) > 0:
                         seen_sentences.add(line)
                     # print("Final added: ", line)
 
