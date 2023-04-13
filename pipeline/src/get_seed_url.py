@@ -32,6 +32,7 @@ class GetSeedUrl:
         :param seed: a seed url.
         :return: True if the url is allowed, False otherwise.
         """
+
         is_allowed = not any(
             re.search(ext, seed.lower()) for ext in self.extension_to_exclude
         ) and not any(domain in seed for domain in self.domains_to_exclude)
@@ -48,6 +49,7 @@ class GetSeedUrl:
         :param nutch_seed_file_path: a path to the seed url file within the nutch folder.
         :return: True if the url is new, False otherwise.
         """
+
         new_seed_url = seed_url not in load_corpus(nutch_seed_file_path)
 
         return new_seed_url
@@ -59,6 +61,7 @@ class GetSeedUrl:
         :param url: the input url.
         :return: the domain or domain with subdomain name.
         """
+
         exctracted = tldextract.extract(url)
         domain = exctracted.registered_domain
         subdomain = exctracted.subdomain
@@ -74,13 +77,18 @@ class GetSeedUrl:
         :param url: The URL to be checked.
         :return: True if the URL contains any of the domains, False otherwise.
         """
+
         domain = self.extract_domain(seed_url)
         new_domain = domain not in load_corpus(domain_file_path)
 
         return new_domain
 
     def get_seed_urls(
-        self, query: str, nutch_seed_file_path: Path, num_results: int = 10
+        self,
+        query: str,
+        nutch_seed_file_path: Path,
+        num_results: int = 10,
+        max_url_length: int = 300,
     ) -> List[str]:
         """
         Get new seeds having length < 300 and save them to the seed file.
@@ -97,7 +105,7 @@ class GetSeedUrl:
                 url, nutch_seed_file_path
             ):
                 seeds.add(url)
-                if len(url) < 300:
+                if len(url) < max_url_length:
                     with nutch_seed_file_path.open("a", encoding="utf-8") as f:
                         f.write(url + "\n")
 
@@ -152,6 +160,5 @@ class GetSeedUrl:
         seeds = self.get_seed_urls(query, nutch_seed_file_path)
         domains = self.get_domains(seeds, domain_file_path)
 
-        # Print new URLs
         print(f"\nNew url(s):\n" + "\n".join(list(seeds)))
         print(f"\nNew domain(s):\n" + "\n".join(list(domains)))

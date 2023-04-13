@@ -1,83 +1,37 @@
-from pathlib import Path
+from common_utils import config
 from seeder import MainSeeder
 from src.process_corpus import GetInitialCorpus, GetFinalCorpus
 
 
 class BuildCorpus:
-    SOLR_API_URL = "http://localhost:8983/solr/nutch/select"
-    START_PATTERNS = [
-        "home",
-        "previous",
-        "next",
-        "comments on",
-        "comment on",
-        "labels",
-        "etiquetas:",
-        "address",
-        "street",
-        "from",
-        "http",
-        "»",
-        "«",
-        "←",
-    ]
-    IN_PATTERNS = [
-        "div>",
-        "span>",
-        "p>",
-        "h1>",
-        "h2>",
-        "h3>",
-        "h4>",
-        "ul>",
-        "ol>",
-        "li>",
-        "a>",
-        "table>",
-        "th>",
-        "td>",
-        " | ",
-        "headline",
-        "copyright",
-        "+670",
-        "670)",
-    ]
-    END_PATTERNS = ["...", "…", "___", ",,,", "[…]", "download", "»", "«", "→"]
+    """ This class first extracts Tetun text from the mixed documents, 
+    then preprocesses them to get the final clean corpus """
 
     def __init__(self) -> None:
-        # self.start_row = 1
-        # self.rows = 3
         self.main_seeder = MainSeeder()
-        self.lang_proba_threshold = self.main_seeder.lang_proba_threshold
-        self.lid_model_file_path = self.main_seeder.lid_model_file_path
-        self.tetun_lang = self.main_seeder.tetun_language
         self.get_initial_corpus = GetInitialCorpus(
-            self.SOLR_API_URL,
-            # self.start_row,
-            # self.rows,
-            self.tetun_lang,
-            self.lang_proba_threshold,
-            self.lid_model_file_path,
+            config.SOLR_API_URL,
+            # config.START_ROW,
+            # config.ROWS,
+            config.LANGUAGE,
+            config.LANG_PROBA_THRESHOLD,
+            config.LID_MODEL_FILE_PATH,
         )
-        self.get_skipped_corpus_file_path = Path(
-            "pipeline/data/skipped_corpus.txt"
-        )
-        self.final_corpus_file_path = Path("pipeline/data/final_corpus.txt")
         self.generate_initial_corpus = (
             self.get_initial_corpus.generate_initial_corpus()
         )
         self.get_final_corpus = GetFinalCorpus(
             self.generate_initial_corpus,
-            self.get_skipped_corpus_file_path,
-            self.START_PATTERNS,
-            self.END_PATTERNS,
-            self.IN_PATTERNS,
+            config.GET_SKIPPED_FILE_PATH,
+            config.START_PATTERNS,
+            config.END_PATTERNS,
+            config.IN_PATTERNS,
         )
 
     def run(self) -> None:
         try:
             self.get_final_corpus.get_final_text(
-                self.final_corpus_file_path, self.get_skipped_corpus_file_path
+                config.FINAL_CORPUS_FILE_PATH, config.GET_SKIPPED_FILE_PATH
             )
             print("\nThe final corpus has been generated sucessfully.\n\n")
         except Exception as e:

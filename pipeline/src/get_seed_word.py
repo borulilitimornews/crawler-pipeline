@@ -1,7 +1,7 @@
 import random
+from pathlib import Path
 from collections import Counter
 from tetuntokenizer.tokenizer import TetunWordTokenizer
-from pathlib import Path
 from typing import List, Dict
 from common_utils.tetun_lid import TetunLid
 from common_utils.utils import load_corpus
@@ -55,7 +55,7 @@ class GetSeedWords:
         """
 
         doc = self.get_sample_corpus(corpus_file_path)
-        print(f"\nCorpus amount in sample: {len(doc)} sentences.")
+        print(f"\nTotal corpus sample: {len(doc)} sentences.")
 
         tokenizer = TetunWordTokenizer()
         doc_lower = str(doc).lower()

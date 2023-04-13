@@ -18,7 +18,7 @@ class GetInitialCorpus:
         self,
         solr_api_url: str,
         # start_row: int,
-        # rows: int
+        # rows: int,
         tetun_lang: str,
         lang_proba_treshold: float,
         lid_model_file_path: Path,
@@ -55,7 +55,7 @@ class GetInitialCorpus:
         params = {
             "q": "*:*",
             "wt": "json",
-            "start": 0,  # self.start_row,
+            "start": 0,  # self.start_row
             "rows": self.get_total_documents(),  # self.rows
         }
 
@@ -91,7 +91,7 @@ class GetInitialCorpus:
                     print("Initial added: ", text)
                     initial_corpus.append(text + "\n")
 
-            # Add another newline to the end of each document.
+            # Add another \n to the end of each doc.
             initial_corpus.append("\n")
 
         return initial_corpus
@@ -184,4 +184,3 @@ class GetFinalCorpus:
             f.write("\n".join(unique_sentences))
 
         return f"Total unique sentences: {len(unique_sentences)}"
-
