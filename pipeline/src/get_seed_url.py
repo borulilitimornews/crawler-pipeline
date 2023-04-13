@@ -18,7 +18,9 @@ class GetSeedUrl:
         * If the url contains a new domain, add it to the domain file.
     """
 
-    def __init__(self, extension_to_exclude, domains_to_exclude) -> None:
+    def __init__(
+        self, extension_to_exclude: List[str], domains_to_exclude: List[str]
+    ) -> None:
         self.extension_to_exclude = extension_to_exclude
         self.domains_to_exclude = domains_to_exclude
 
