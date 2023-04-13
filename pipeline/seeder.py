@@ -4,7 +4,7 @@ from src.get_seed_url import GetSeedUrl
 
 
 class MainSeeder:
-    """ The class generates seed words and seed urls including the respective domains. """
+    """ This class generates seed words and seed urls including the respective domains. """
 
     def __init__(self) -> None:
         get_seed_word = GetSeedWords(
