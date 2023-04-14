@@ -29,7 +29,7 @@ class MainSeeder:
                 config.DOMAIN_FILE_PATH,
                 self.generate_get_seed_words,
             )
-            print(f"\nSeed URLs have been generated successfully.\n")
+            print(f"\nSeed URLs have been generated successfully.\n\n")
         except Exception as e:
             print(f"\nError while generating the seed URLs: {e}\n")
 

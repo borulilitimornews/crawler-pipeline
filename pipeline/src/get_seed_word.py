@@ -32,7 +32,7 @@ class GetSeedWords:
 
     def get_sample_corpus(self, corpus_file_path: Path) -> List[str]:
         """
-        Generate a random text sample from the corpus as per the ratio.
+        Generates a random text sample from the corpus as per the ratio.
 
         :param corpus_file_path: a path to the corpus file.
         :return: a list of text lines.
@@ -48,7 +48,7 @@ class GetSeedWords:
 
     def tokenize_sample_corpus(self, corpus_file_path: Path) -> List[str]:
         """
-        Tokenize the sample corpus into tokens.
+        Tokenizes the sample corpus into tokens.
 
         :param corpus_file_path: a path to the corpus file.
         :return: a list of words.
@@ -67,7 +67,7 @@ class GetSeedWords:
         self, corpus_file_path: Path, lid_model_file_path: Path
     ) -> Dict:
         """
-        Count the word frequency and calculate its probability of distribution.
+        Counts the word frequency and calculate its probability of distribution.
 
         :param corpus_file_path: a path to the corpus file.
         :param lid_model_file_path: a path to the LID model file.
@@ -94,7 +94,7 @@ class GetSeedWords:
         seed_words_file_path: Path,
     ) -> str:
         """
-        Sample three unique words and save them to the seed file.
+        Samples three unique words and save them to the seed file.
 
         :param corpus_file_path: a path to the corpus file.
         :param lid_model_file_path: a path to the LID model file.

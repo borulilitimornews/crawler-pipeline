@@ -29,7 +29,7 @@ class GetInitialCorpus:
 
     def get_total_documents(self) -> int:
         """ 
-        Get total documents from the Solr. 
+        Gets total documents from the Solr. 
 
         :return: the total documents. 
         """
@@ -43,7 +43,7 @@ class GetInitialCorpus:
 
     def get_documents(self) -> List[str]:
         """
-        Retrieve documents from the Solr.
+        Retrieves documents from the Solr.
 
         :return: a list of text documents.
         """
@@ -67,9 +67,9 @@ class GetInitialCorpus:
 
     def generate_initial_corpus(self) -> List[str]:
         """
-        Generate text corpus and:
-        (1) Get Tetun text that has a probability >= threshold.
-        (2) Select text that has a length > 50 and save them to the initial corpus file.
+        Generates text corpus and:
+        (1) Gets Tetun text that has a probability >= threshold.
+        (2) Selects text that has a length > 50 and save them to the initial corpus file.
 
         :param initial corpus_file_path: a path to the initial corpus file.
         :return: a list contains the initial corpus.
@@ -116,7 +116,7 @@ class GetFinalCorpus:
 
     def is_text_to_filter(self, text_line: str) -> bool:
         """
-        Check if the given text meets the predefined filter conditions.
+        Checks if the given text meets the predefined filter conditions.
 
         :param text_line: the input text.
         :return: True if the given text meets, False otherwise.
@@ -140,7 +140,7 @@ class GetFinalCorpus:
         max_consecutive_newlines: int = 2,
     ) -> str:
         """
-        Filtered the input text that meets the predefined filter conditions.
+        Gets the input text that meets the predefined filter conditions.
 
         :param initial_corpus_file_path: a path to the input file.
         :param final_corpus_file_path: a path to the output file.

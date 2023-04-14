@@ -26,7 +26,7 @@ class GetSeedUrl:
 
     def is_allowed_seed_url(self, seed: str) -> bool:
         """
-        Check if the given urls' domain is not part of the domain excluded list 
+        Checks if the given urls' domain is not part of the domain excluded list 
         and it still not exists on the seed url file.
 
         :param seed: a seed url.
@@ -43,7 +43,7 @@ class GetSeedUrl:
         self, seed_url: str, nutch_seed_file_path: Path
     ) -> bool:
         """
-        Check if it is a new url.
+        Checks if it is a new url.
 
         :param seed_url: a seed url.
         :param nutch_seed_file_path: a path to the seed url file within the nutch folder.
@@ -56,7 +56,7 @@ class GetSeedUrl:
 
     def extract_domain(self, url: str) -> str:
         """
-        Get the domain name from an url.
+        Gets the domain name from an url.
 
         :param url: the input url.
         :return: the domain or domain with subdomain name.
@@ -72,7 +72,7 @@ class GetSeedUrl:
 
     def is_new_domain(self, seed_url: str, domain_file_path: Path) -> bool:
         """
-        Check if the input URL's domain contains any of the domains in the domain list.
+        Checks if the input URL's domain contains any of the domains in the domain list.
 
         :param url: The URL to be checked.
         :return: True if the URL's domain contains any of the domains, False otherwise.
@@ -91,7 +91,7 @@ class GetSeedUrl:
         max_url_length: int = 300,
     ) -> List[str]:
         """
-        Get new seeds having length < 300 and save them to the seed file.
+        Gets new seeds having length < 300 and save them to the seed file.
 
         :param query: a search query or seed words.
         :param nutch_seed_file_path: a path to the seed url file within the nutch folder.
@@ -115,7 +115,7 @@ class GetSeedUrl:
         self, seed_urls: List[str], domain_file_path: Path
     ) -> None:
         """
-        Get new domains from the seed URLs.
+        Gets new domains from the seed URLs.
 
         :param seeds: a list of the seed URLs.
         :param domain_file_path: a path to the domain file.
@@ -142,7 +142,7 @@ class GetSeedUrl:
         generate_seed_words_func: callable,
     ) -> None:
         """
-        Get seed urls returned by the Google search for the input seed words.
+        Gets seed urls returned by the Google search for the input seed words.
 
         :param corpus_file_path: a path to the corpus file.
         :param seed_words_file_path: a path to the seed words file.

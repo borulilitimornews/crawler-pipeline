@@ -10,7 +10,7 @@ class TetunLid:
     probability that meets the predefined threshold.
     """
 
-    def __init__(self, tetun_lang: str, lang_proba_threshold) -> None:
+    def __init__(self, tetun_lang: str, lang_proba_threshold: float) -> None:
         self.tetun_lang = tetun_lang
         self.lang_proba_threshold = lang_proba_threshold
 
@@ -33,7 +33,7 @@ class TetunLid:
         self, input_text: List[str], lid_model_file_path: Path
     ) -> List[str]:
         """
-            Get Tetun words with a probability >= threshold. 
+            Gets Tetun words with a probability >= threshold. 
 
             :param input_text: a list of string.
             :param lid_model_file_path: a path to the LID model file.
