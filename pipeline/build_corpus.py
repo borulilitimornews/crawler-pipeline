@@ -28,6 +28,7 @@ class BuildCorpus:
         try:
             self.get_final_corpus.get_final_text()
             print("\nThe final corpus has been generated sucessfully.\n\n")
+
         except Exception as e:
             print(f"\nError while generating the final corpus: {e}\n")
 
