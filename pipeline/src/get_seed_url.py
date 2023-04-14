@@ -19,10 +19,22 @@ class GetSeedUrl:
     """
 
     def __init__(
-        self, extension_to_exclude: List[str], domains_to_exclude: List[str]
+        self,
+        extension_to_exclude: List[str],
+        domains_to_exclude: List[str],
+        generate_seed_words: callable,
+        google_search_num_result: int,
+        max_seed_url_length: int,
+        nutch_seed_url_file_path: Path,
+        domain_file_path: Path,
     ) -> None:
         self.extension_to_exclude = extension_to_exclude
         self.domains_to_exclude = domains_to_exclude
+        self.generate_seed_words = generate_seed_words
+        self.google_search_num_result = google_search_num_result
+        self.max_seed_url_length = max_seed_url_length
+        self.nutch_seed_url_file_path = nutch_seed_url_file_path
+        self.domain_file_path = domain_file_path
 
     def is_allowed_seed_url(self, seed: str) -> bool:
         """
@@ -39,18 +51,15 @@ class GetSeedUrl:
 
         return is_allowed
 
-    def is_new_seed_url(
-        self, seed_url: str, nutch_seed_file_path: Path
-    ) -> bool:
+    def is_new_seed_url(self, seed_url: str) -> bool:
         """
         Checks if it is a new url.
 
         :param seed_url: a seed url.
-        :param nutch_seed_file_path: a path to the seed url file within the nutch folder.
         :return: True if the url is new, False otherwise.
         """
 
-        new_seed_url = seed_url not in load_corpus(nutch_seed_file_path)
+        new_seed_url = seed_url not in load_corpus(self.nutch_seed_url_file_path)
 
         return new_seed_url
 
@@ -70,7 +79,7 @@ class GetSeedUrl:
 
         return domain
 
-    def is_new_domain(self, seed_url: str, domain_file_path: Path) -> bool:
+    def is_new_domain(self, seed_url: str) -> bool:
         """
         Checks if the input URL's domain contains any of the domains in the domain list.
 
@@ -79,86 +88,49 @@ class GetSeedUrl:
         """
 
         domain = self.extract_domain(seed_url)
-        new_domain = domain not in load_corpus(domain_file_path)
+        new_domain = domain not in load_corpus(self.domain_file_path)
 
         return new_domain
 
-    def get_seed_urls(
-        self,
-        query: str,
-        nutch_seed_file_path: Path,
-        num_results: int = 10,
-        max_url_length: int = 300,
-    ) -> List[str]:
+    def get_seed_urls(self) -> List[str]:
         """
-        Gets new seeds having length < 300 and save them to the seed file.
-
-        :param query: a search query or seed words.
-        :param nutch_seed_file_path: a path to the seed url file within the nutch folder.
-        :param num_result: a total of the URLs to be retrieved by Google Search API.
-        :return: a list of seed URLs.
+        Gets new seeds having length < 300 and save them to the seed file 
+        and return a list of seed URLs.
         """
 
         seeds = set()
-        for url in search(query, num_results=num_results):
-            if self.is_allowed_seed_url(url) and self.is_new_seed_url(
-                url, nutch_seed_file_path
-            ):
+        for url in search(self.generate_seed_words, num_results=self.google_search_num_result):
+            if self.is_allowed_seed_url(url) and self.is_new_seed_url(url):
                 seeds.add(url)
-                if len(url) < max_url_length:
-                    with nutch_seed_file_path.open("a", encoding="utf-8") as f:
-                        f.write(url + "\n")
+                if len(url) < self.max_seed_url_length:
+                    with self.nutch_seed_url_file_path.open("a", encoding="utf-8") as seed_url_file:
+                        seed_url_file.write(url + "\n")
 
         return list(seeds)
 
-    def get_domains(
-        self, seed_urls: List[str], domain_file_path: Path
-    ) -> None:
+    def get_domains(self, seed_urls: List[str]) -> None:
         """
         Gets new domains from the seed URLs.
 
         :param seeds: a list of the seed URLs.
-        :param domain_file_path: a path to the domain file.
         :return: a list of domains.
         """
 
         domains = set()
         for seed_url in seed_urls:
             domain = self.extract_domain(seed_url)
-            if self.is_new_domain(seed_url, domain_file_path):
+            if self.is_new_domain(seed_url):
                 domains.add(domain)
-                with domain_file_path.open("a", encoding="utf-8") as f:
-                    f.write(domain + "\n")
+                with self.domain_file_path.open("a", encoding="utf-8") as domain_file:
+                    domain_file.write(domain + "\n")
 
         return list(domains)
 
-    def generate_seed_urls(
-        self,
-        corpus_file_path: Path,
-        seed_words_file_path: Path,
-        nutch_seed_file_path: Path,
-        lid_model_file_path: Path,
-        domain_file_path: Path,
-        generate_seed_words_func: callable,
-    ) -> None:
-        """
-        Gets seed urls returned by the Google search for the input seed words.
+    def generate_seed_urls(self) -> None:
+        """ Gets seed urls returned by the Google search and their respective domains. """
 
-        :param corpus_file_path: a path to the corpus file.
-        :param seed_words_file_path: a path to the seed words file.
-        :param nutch_seed_file_path: a path to the seed URLs file within the nutch folder.
-        :param lid_model_file_path: a path to the LID model file.
-        :param domain_file_path: a path to the domain file.
-        :param generate_seed_words_func: a function to generate seed words.
-        """
-
-        # generate_seed_word_func = generate_seed_words() of the SeedWords class
-        query = generate_seed_words_func(
-            corpus_file_path, lid_model_file_path, seed_words_file_path
-        )
-
-        seeds = self.get_seed_urls(query, nutch_seed_file_path)
-        domains = self.get_domains(seeds, domain_file_path)
+        seeds = self.get_seed_urls()
+        domains = self.get_domains(seeds)
 
         print(f"\nNew url(s):\n" + "\n".join(list(seeds)))
         print(f"\nNew domain(s):\n" + "\n".join(list(domains)))

@@ -1,12 +1,13 @@
 from pathlib import Path
 
 # File paths
-INITIAL_CORPUS_FILE_PATH = Path("pipeline/data/timornews_corpus.txt")
+MAIN_CORPUS_FILE_PATH = Path("pipeline/data/timornews_corpus.txt")
 SEED_WORDS_FILE_PATH = Path("pipeline/data/seed_words.txt")
 NUTCH_SEED_URL_FILE_PATH = Path("./nutch/urls/seed.txt")
 DOMAIN_FILE_PATH = Path("pipeline/data/domains.txt")
 LID_MODEL_FILE_PATH = Path("pipeline/tetun_lid/model.pkl")
-GET_SKIPPED_FILE_PATH = Path("pipeline/data/skipped_corpus.txt")
+INITIAL_CORPUS_FILE_PATH = Path("pipeline/data/initial_corpus.txt")
+SKIPPED_FILE_PATH = Path("pipeline/data/skipped_corpus.txt")
 FINAL_CORPUS_FILE_PATH = Path("pipeline/data/final_corpus.txt")
 
 # URLs
@@ -16,7 +17,9 @@ SOLR_API_URL = "http://localhost:8983/solr/nutch/select"
 LANGUAGE = "tet"
 LANG_PROBA_THRESHOLD = 0.95
 CORPUS_SAMPLE_RATIO = 0.1
-SEED_WORD_SAMPLE = 3
+NUM_SEED_WORD_SAMPLE = 3
+GOOGLE_SEARCH_NUM_RESULT = 10
+MAX_SEED_URL_LENGTH = 300
 
 # Patterns to exclude the URLs retrieved for the seed URLs.
 EXTENSION_TO_EXCLUDE = [
@@ -53,6 +56,7 @@ START_PATTERNS = [
     "»",
     "«",
     "←",
+    "___",
 ]
 
 IN_PATTERNS = [

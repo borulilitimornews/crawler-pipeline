@@ -20,19 +20,17 @@ class GetInitialCorpus:
         tetun_lang: str,
         lang_proba_threshold: float,
         lid_model_file_path: Path,
+        initial_corpus_file_path: Path,
     ) -> None:
         self.solr_api_url = solr_api_url
         self.tetun_lang = tetun_lang
         self.lang_proba_threshold = lang_proba_threshold
-        self.tetun_lid = TetunLid(self.tetun_lang, self.lang_proba_threshold)
         self.lid_model_file_path = lid_model_file_path
+        self.tetun_lid = TetunLid(self.tetun_lang, self.lang_proba_threshold, lid_model_file_path)
+        self.initial_corpus_file_path = initial_corpus_file_path
 
     def get_total_documents(self) -> int:
-        """ 
-        Gets total documents from the Solr. 
-
-        :return: the total documents. 
-        """
+        """ Gets total documents from the Solr and return it. """
 
         params = {"q": "*:*", "rows": 0}
         response = requests.get(self.solr_api_url, params=params)
@@ -42,56 +40,42 @@ class GetInitialCorpus:
         return total_doc
 
     def get_documents(self) -> List[str]:
-        """
-        Retrieves documents from the Solr.
-
-        :return: a list of text documents.
-        """
+        """ Retrieves documents from the Solr and return their list. """
 
         params = {
             "q": "*:*",
             "wt": "json",
             "start": 0,
-            "rows": self.get_total_documents(),
+            "rows": 10,  # self.get_total_documents(),
         }
 
         response = requests.get(self.solr_api_url, params=params)
         data = json.loads(response.text)
-        docs = [
-            d.get("content")
-            for d in data["response"]["docs"]
-            if d.get("content") is not None
-        ]
+        docs = [d.get("content") for d in data["response"]["docs"] if d.get("content") is not None]
 
         return docs
 
-    def generate_initial_corpus(self) -> List[str]:
+    def generate_initial_corpus(self) -> None:
         """
         Generates text corpus and:
         (1) Gets Tetun text that has a probability >= threshold.
         (2) Selects text that has a length > 50 and save them to the initial corpus file.
-
-        :param initial corpus_file_path: a path to the initial corpus file.
-        :return: a list contains the initial corpus.
         """
 
-        initial_corpus = []
         for doc in self.get_documents():
             text = doc.split("\n")
             # Init: Apply Tetun LID
-            tetun_text = self.tetun_lid.get_tetun_text(
-                text, self.lid_model_file_path
-            )
+            tetun_text = self.tetun_lid.get_tetun_text(text)
             # End
             for text in tetun_text:
                 if len(text.strip()) > 50:
                     print("Initial added: ", text)
-                    initial_corpus.append(text + "\n")
+                    with self.initial_corpus_file_path.open("a", encoding="utf-8") as initial_file:
+                        initial_file.write(text + "\n")
 
-            # Add another \n to the end of each doc.
-            initial_corpus.append("\n")
-
-        return initial_corpus
+        # Add another \n to the end of each doc.
+        with self.initial_corpus_file_path.open("a", encoding="utf-8") as initial_file:
+            initial_file.write("\n")
 
 
 class GetFinalCorpus:
@@ -102,17 +86,19 @@ class GetFinalCorpus:
 
     def __init__(
         self,
-        generate_initial_corpus,
-        get_skipped_corpus_file_path,
-        start_patterns,
-        end_patterns,
-        in_patterns,
+        initial_corpus_file_path: Path,
+        skipped_corpus_file_path: Path,
+        final_corpus_file_path: Path,
+        start_patterns: List[str],
+        end_patterns: List[str],
+        in_patterns: List[str],
     ) -> None:
-        self.generate_initial_corpus = generate_initial_corpus
+        self.initial_corpus_file_path = initial_corpus_file_path
+        self.skipped_corpus_file_path = skipped_corpus_file_path
+        self.final_corpus_file_path = final_corpus_file_path
         self.start_patterns = start_patterns
         self.end_patterns = end_patterns
         self.in_patterns = in_patterns
-        self.get_skipped_corpus_file_path = get_skipped_corpus_file_path
 
     def is_text_to_filter(self, text_line: str) -> bool:
         """
@@ -133,52 +119,30 @@ class GetFinalCorpus:
 
         return text_to_filter
 
-    def get_final_text(
-        self,
-        final_corpus_file_path: Path,
-        get_skipped_corpus_file_path: Path,
-        max_consecutive_newlines: int = 2,
-    ) -> str:
+    def get_final_text(self, max_consecutive_newlines: int = 2,) -> None:
         """
         Gets the final text docs and excludes the input texts that meet the predefined filter conditions.
 
-        :param initial_corpus_file_path: a path to the input file.
-        :param final_corpus_file_path: a path to the output file.
         :param max_consecutive_newlines: the maximum newlines allowed after each document.
-        :return: a conclusion message.
         """
 
-        unique_sentences = []
-        seen_sentences = set()
-        consecutive_newlines = 0
-
-        for line in self.generate_initial_corpus:
-            line = line.strip()
-            if self.is_text_to_filter(line):
-                print("Skipped: ", line)
-                with get_skipped_corpus_file_path.open(
-                    "a", encoding="utf-8"
-                ) as f:
-                    f.write(line + "\n")
-                continue
-
-            if line not in seen_sentences:
-                if len(line) == 0:
-                    consecutive_newlines += 1
-                else:
-                    consecutive_newlines = 0
-                if (
-                    len(line) == 0
-                    and consecutive_newlines >= max_consecutive_newlines
-                ):
+        with self.initial_corpus_file_path.open("r", encoding="utf-8") as initial_file:
+            consecutive_newlines = 0
+            for line in initial_file:
+                line = line.strip()
+                if self.is_text_to_filter(line):
+                    print("Skipped: ", line)
+                    with self.skipped_corpus_file_path.open("a", encoding="utf-8") as skipped_file:
+                        skipped_file.write(line + "\n")
                     continue
                 else:
-                    unique_sentences.append(line)
-                    if len(line) > 0:
-                        seen_sentences.add(line)
-                    # print("Final added: ", line)
-
-        with final_corpus_file_path.open("w", encoding="utf-8") as f:
-            f.write("\n".join(unique_sentences))
-
-        return f"Total unique sentences: {len(unique_sentences)}"
+                    if len(line) == 0:
+                        consecutive_newlines += 1
+                    else:
+                        consecutive_newlines = 0
+                    if len(line) == 0 and consecutive_newlines >= max_consecutive_newlines:
+                        continue
+                    else:
+                        with self.final_corpus_file_path.open("a", encoding="utf-8") as final_file:
+                            final_file.write(line + "\n")
+                            # print("Final added: ", line)

@@ -11,8 +11,8 @@ def load_corpus(file_path: Path) -> List[str]:
     """
 
     try:
-        with file_path.open("r", encoding="utf-8") as f:
-            contents = [line.strip() for line in f]
+        with file_path.open("r", encoding="utf-8") as corpus_file:
+            contents = [line.strip() for line in corpus_file]
     except FileNotFoundError:
         print(f"File not found at: {file_path}")
         return []

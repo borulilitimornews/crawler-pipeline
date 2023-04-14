@@ -19,26 +19,30 @@ class GetSeedWords:
 
     def __init__(
         self,
+        main_corpus_file_path: Path,
         tetun_lang: str,
         corpus_sample_ratio: float,
+        lid_model_file_path: Path,
         lang_proba_threshold: float,
         num_seed_words_sample: int,
+        seed_words_file_path: Path,
     ) -> None:
+        self.main_corpus_file_path = main_corpus_file_path
         self.corpus_sample_ratio = corpus_sample_ratio
+        self.lid_model_file_path = lid_model_file_path
         self.lang_proba_threshold = lang_proba_threshold
         self.num_seed_words_sample = num_seed_words_sample
+        self.seed_words_file_path = seed_words_file_path
         self.tetun_lang = tetun_lang
-        self.tetun_lid = TetunLid(self.tetun_lang, self.lang_proba_threshold)
+        self.tetun_lid = TetunLid(self.tetun_lang, self.lang_proba_threshold, lid_model_file_path)
 
-    def get_sample_corpus(self, corpus_file_path: Path) -> List[str]:
+    def get_sample_corpus(self) -> List[str]:
         """
-        Generates a random text sample from the corpus as per the ratio.
-
-        :param corpus_file_path: a path to the corpus file.
-        :return: a list of text lines.
+        Generates a random text sample from the corpus 
+        as per the ratio and return a list of text lines.
         """
 
-        corpus = load_corpus(corpus_file_path)
+        corpus = load_corpus(self.main_corpus_file_path)
 
         corpus_size = len(corpus)
         sample_size = int(self.corpus_sample_ratio * corpus_size)
@@ -46,15 +50,10 @@ class GetSeedWords:
 
         return sample_corpus
 
-    def tokenize_sample_corpus(self, corpus_file_path: Path) -> List[str]:
-        """
-        Tokenizes the sample corpus into tokens.
+    def tokenize_sample_corpus(self) -> List[str]:
+        """ Tokenizes the sample corpus into tokens and return a list of words. """
 
-        :param corpus_file_path: a path to the corpus file.
-        :return: a list of words.
-        """
-
-        doc = self.get_sample_corpus(corpus_file_path)
+        doc = self.get_sample_corpus()
         print(f"\nTotal corpus sample: {len(doc)} sentences.")
 
         tokenizer = TetunWordTokenizer()
@@ -63,48 +62,28 @@ class GetSeedWords:
 
         return words
 
-    def calculate_proba_distribution(
-        self, corpus_file_path: Path, lid_model_file_path: Path
-    ) -> Dict:
+    def calculate_proba_distribution(self) -> Dict:
         """
-        Counts the word frequency and calculate its probability of distribution.
-
-        :param corpus_file_path: a path to the corpus file.
-        :param lid_model_file_path: a path to the LID model file.
-        :return: a dictionary contains words and their distribution probability.
+        Counts the word frequency and calculate its probability of distribution and 
+        return a dictionary contains words and their distribution probability.
         """
 
         # Apply Tetun LID model to the tokenized words
-        words = self.tetun_lid.get_tetun_text(
-            self.tokenize_sample_corpus(corpus_file_path), lid_model_file_path
-        )
+        words = self.tetun_lid.get_tetun_text(self.tokenize_sample_corpus())
 
         freq_dict = Counter(words)
         total_words = len(words)
-        probs_dist = {
-            word: count / total_words for word, count in freq_dict.items()
-        }
+        probs_dist = {word: count / total_words for word, count in freq_dict.items()}
 
         return probs_dist
 
-    def generate_seed_words(
-        self,
-        corpus_file_path: Path,
-        lid_model_file_path: Path,
-        seed_words_file_path: Path,
-    ) -> str:
+    def generate_seed_words(self) -> str:
         """
-        Samples three unique words and save them to the seed file.
-
-        :param corpus_file_path: a path to the corpus file.
-        :param lid_model_file_path: a path to the LID model file.
-        :param seed_words_file_path: a path to the seed words file.
-        :return: a string of sampled words.
+        Samples three unique words and save them to the seed file 
+        and return a string of sampled words.
         """
 
-        proba_dist = self.calculate_proba_distribution(
-            corpus_file_path, lid_model_file_path
-        )
+        proba_dist = self.calculate_proba_distribution()
 
         sequence_words = list(proba_dist.keys())
         weights = list(proba_dist.values())
@@ -118,7 +97,7 @@ class GetSeedWords:
         seeds = " ".join(list(samples))
         print(f"Seed words: {seeds}")
 
-        with seed_words_file_path.open("a", encoding="utf-8") as f:
-            f.write(seeds + "\n")
+        with self.seed_words_file_path.open("a", encoding="utf-8") as seed_word_file:
+            seed_word_file.write(seeds + "\n")
 
         return seeds

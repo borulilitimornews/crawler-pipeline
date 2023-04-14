@@ -12,13 +12,13 @@ class BuildCorpus:
             config.LANGUAGE,
             config.LANG_PROBA_THRESHOLD,
             config.LID_MODEL_FILE_PATH,
+            config.INITIAL_CORPUS_FILE_PATH,
         )
-        self.generate_initial_corpus = (
-            self.get_initial_corpus.generate_initial_corpus()
-        )
+        self.generate_initial_corpus = self.get_initial_corpus.generate_initial_corpus()
         self.get_final_corpus = GetFinalCorpus(
-            self.generate_initial_corpus,
-            config.GET_SKIPPED_FILE_PATH,
+            config.INITIAL_CORPUS_FILE_PATH,
+            config.SKIPPED_FILE_PATH,
+            config.FINAL_CORPUS_FILE_PATH,
             config.START_PATTERNS,
             config.END_PATTERNS,
             config.IN_PATTERNS,
@@ -26,9 +26,7 @@ class BuildCorpus:
 
     def run(self) -> None:
         try:
-            self.get_final_corpus.get_final_text(
-                config.FINAL_CORPUS_FILE_PATH, config.GET_SKIPPED_FILE_PATH
-            )
+            self.get_final_corpus.get_final_text()
             print("\nThe final corpus has been generated sucessfully.\n\n")
         except Exception as e:
             print(f"\nError while generating the final corpus: {e}\n")
