@@ -96,8 +96,8 @@ class GetInitialCorpus:
 
 class GetFinalCorpus:
     """
-    A class to filter the input text that meets the predefined filter conditions 
-    and blank lines more than two times in consecutive order.
+    This class gets the input text that meets the predefined filter conditions 
+    and filters blank lines more than two times in consecutive order.
     """
 
     def __init__(
