@@ -8,10 +8,10 @@ from common_utils.tetun_lid import TetunLid
 class GetInitialCorpus:
     """
     This class is mainly responsible to:
-    (1) Get total of documents from the Solr.
+    (1) Get a total of documents from the Solr.
     (2) Retrieve and process the crawled documents indexed in the Solr.
     (3) Apply the LID model and filter out documents that do not satisfy the predefined conditions.
-    (4) For each line of the documents having a length > 50, save them to the initial corpus file.
+    (4) Save each line of the documents that has a length > 50 to the initial corpus file.
     """
 
     def __init__(
@@ -68,11 +68,11 @@ class GetInitialCorpus:
     def generate_initial_corpus(self) -> List[str]:
         """
         Generate text corpus and:
-        (1) Get Tetun text having a probability >= threshold.
-        (2) Select text having a length > 50 and save them to the initial corpus file.
+        (1) Get Tetun text that has a probability >= threshold.
+        (2) Select text that has a length > 50 and save them to the initial corpus file.
 
-        :param initial corpus_file_path: a path to initial corpus file.
-        :return: a list contains initial corpus.
+        :param initial corpus_file_path: a path to the initial corpus file.
+        :return: a list contains the initial corpus.
         """
 
         initial_corpus = []
@@ -147,7 +147,7 @@ class GetFinalCorpus:
         :param max_consecutive_newlines: the maximum newlines allowed after each document.
         :return: a conclusion message.
         """
-        
+
         unique_sentences = []
         seen_sentences = set()
         consecutive_newlines = 0

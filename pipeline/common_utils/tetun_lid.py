@@ -5,7 +5,7 @@ from typing import List
 
 class TetunLid:
     """
-    Tetun LID class loads the LID model file, applies it to the input text, 
+    Tetun LID class loads the LID model file, applies it to the given text, 
     and then extracts only texts that are predicted to Tetun with a certain 
     probability that meets the predefined threshold.
     """
@@ -16,10 +16,10 @@ class TetunLid:
 
     def load_lid_model(self, lid_model_file_path: Path) -> object:
         """ 
-        Load language identification model.
+        Loads language identification (LID) model.
 
-        :param lid_model_file_path: a path to the Tetun LID model file.
-        :return: Tetun LID model.
+        :param lid_model_file_path: a path to the LID model file.
+        :return: the LID model.
         """
 
         if not lid_model_file_path.exists():
@@ -37,7 +37,7 @@ class TetunLid:
 
             :param input_text: a list of string.
             :param lid_model_file_path: a path to the LID model file.
-            :return: a list of text
+            :return: a list of texts.
             """
 
         tetun_text = []

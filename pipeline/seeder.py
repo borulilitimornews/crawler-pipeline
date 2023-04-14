@@ -4,7 +4,7 @@ from src.get_seed_url import GetSeedUrl
 
 
 class MainSeeder:
-    """ This class generates seed words and seed urls including the respective domains. """
+    """ This class generates seed words and seed URLs, including the respective domains. """
 
     def __init__(self) -> None:
         get_seed_word = GetSeedWords(
@@ -30,7 +30,7 @@ class MainSeeder:
             )
             print(f"\nSeed URLs have been generated successfully.\n")
         except Exception as e:
-            print(f"\nError while generating seed URLs: {e}\n")
+            print(f"\nError while generating the seed URLs: {e}\n")
 
 
 if __name__ == "__main__":

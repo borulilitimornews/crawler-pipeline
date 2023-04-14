@@ -1,5 +1,4 @@
 from common_utils import config
-from seeder import MainSeeder
 from src.process_corpus import GetInitialCorpus, GetFinalCorpus
 
 
@@ -8,7 +7,6 @@ class BuildCorpus:
     then preprocesses them to get the final clean corpus """
 
     def __init__(self) -> None:
-        self.main_seeder = MainSeeder()
         self.get_initial_corpus = GetInitialCorpus(
             config.SOLR_API_URL,
             config.LANGUAGE,
@@ -33,7 +31,7 @@ class BuildCorpus:
             )
             print("\nThe final corpus has been generated sucessfully.\n\n")
         except Exception as e:
-            print(f"\nError while generating final corpus: {e}\n")
+            print(f"\nError while generating the final corpus: {e}\n")
 
 
 if __name__ == "__main__":

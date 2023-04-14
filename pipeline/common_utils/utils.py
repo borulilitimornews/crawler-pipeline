@@ -4,7 +4,7 @@ from typing import List
 
 def load_corpus(file_path: Path) -> List[str]:
     """
-    Load corpus of a file.
+    Loads corpus from a file and returns its contents.
 
     :param file_path: a path to the file.
     :returns: a list of text.

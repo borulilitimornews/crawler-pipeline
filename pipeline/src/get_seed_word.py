@@ -10,11 +10,11 @@ from common_utils.utils import load_corpus
 class GetSeedWords:
     """ 
     This class:
-    (1) Get a random text sample as per the predefined ratio.
-    (2) Tokenize the text sample into tokens (words).
-    (3) Applying LID model to get tokens with the probability >= threshold.
-    (4) Count the word frequency and calculate its probability of distribution.
-    (5) Sample three unique words from (4) and save them in the seed file.
+    (1) Gets a random text sample as per the predefined ratio.
+    (2) Tokenizes the text sample into tokens (words).
+    (3) Applies the LID model to get tokens with the probability >= threshold.
+    (4) Counts the word frequency and calculate its probability of distribution.
+    (5) Samples three unique words from (4) and save them to the seed file.
     """
 
     def __init__(
@@ -94,7 +94,7 @@ class GetSeedWords:
         seed_words_file_path: Path,
     ) -> str:
         """
-        Sample three unique words and save in the seed file.
+        Sample three unique words and save them to the seed file.
 
         :param corpus_file_path: a path to the corpus file.
         :param lid_model_file_path: a path to the LID model file.

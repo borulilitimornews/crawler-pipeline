@@ -9,7 +9,7 @@ from common_utils.utils import load_corpus
 class GetSeedUrl:
     """
     The GetURL class checks each url if:
-    (1) Its domain is not in the excluded domain list.
+    (1) Its domain is not on the excluded domain list.
     (2) It is a new seed.
     (3) It is a new domain.
     
@@ -72,10 +72,10 @@ class GetSeedUrl:
 
     def is_new_domain(self, seed_url: str, domain_file_path: Path) -> bool:
         """
-        Check if the input URL contains any of the domains in the domain list.
+        Check if the input URL's domain contains any of the domains in the domain list.
 
         :param url: The URL to be checked.
-        :return: True if the URL contains any of the domains, False otherwise.
+        :return: True if the URL's domain contains any of the domains, False otherwise.
         """
 
         domain = self.extract_domain(seed_url)
@@ -95,8 +95,8 @@ class GetSeedUrl:
 
         :param query: a search query or seed words.
         :param nutch_seed_file_path: a path to the seed url file within the nutch folder.
-        :param num_result: a total of the result to be retrieved.
-        :return: a list of seed urls
+        :param num_result: a total of the URLs to be retrieved by Google Search API.
+        :return: a list of seed URLs.
         """
 
         seeds = set()
@@ -115,9 +115,9 @@ class GetSeedUrl:
         self, seed_urls: List[str], domain_file_path: Path
     ) -> None:
         """
-        Get new domains from the seeds.
+        Get new domains from the seed URLs.
 
-        :param seeds: a list of seed urls.
+        :param seeds: a list of the seed URLs.
         :param domain_file_path: a path to the domain file.
         :return: a list of domains.
         """
@@ -146,7 +146,7 @@ class GetSeedUrl:
 
         :param corpus_file_path: a path to the corpus file.
         :param seed_words_file_path: a path to the seed words file.
-        :param nutch_seed_file_path: a path to the seed url file within the nutch folder.
+        :param nutch_seed_file_path: a path to the seed URLs file within the nutch folder.
         :param lid_model_file_path: a path to the LID model file.
         :param domain_file_path: a path to the domain file.
         :param generate_seed_words_func: a function to generate seed words.
