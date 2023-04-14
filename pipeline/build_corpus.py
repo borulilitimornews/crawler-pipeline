@@ -12,11 +12,9 @@ class BuildCorpus:
             config.LANGUAGE,
             config.LANG_PROBA_THRESHOLD,
             config.LID_MODEL_FILE_PATH,
-            config.INITIAL_CORPUS_FILE_PATH,
         )
-        self.generate_initial_corpus = self.get_initial_corpus.generate_initial_corpus()
         self.get_final_corpus = GetFinalCorpus(
-            config.INITIAL_CORPUS_FILE_PATH,
+            self.get_initial_corpus.generate_initial_corpus(),
             config.SKIPPED_FILE_PATH,
             config.FINAL_CORPUS_FILE_PATH,
             config.START_PATTERNS,

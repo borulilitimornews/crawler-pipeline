@@ -20,14 +20,12 @@ class GetInitialCorpus:
         tetun_lang: str,
         lang_proba_threshold: float,
         lid_model_file_path: Path,
-        initial_corpus_file_path: Path,
     ) -> None:
         self.solr_api_url = solr_api_url
         self.tetun_lang = tetun_lang
         self.lang_proba_threshold = lang_proba_threshold
         self.lid_model_file_path = lid_model_file_path
         self.tetun_lid = TetunLid(self.tetun_lang, self.lang_proba_threshold, lid_model_file_path)
-        self.initial_corpus_file_path = initial_corpus_file_path
 
     def get_total_documents(self) -> int:
         """ Gets total documents from the Solr and return it. """
@@ -46,7 +44,7 @@ class GetInitialCorpus:
             "q": "*:*",
             "wt": "json",
             "start": 0,
-            "rows": 10,  # self.get_total_documents(),
+            "rows": self.get_total_documents(),
         }
 
         response = requests.get(self.solr_api_url, params=params)
@@ -55,27 +53,27 @@ class GetInitialCorpus:
 
         return docs
 
-    def generate_initial_corpus(self) -> None:
+    def generate_initial_corpus(self) -> List[str]:
         """
         Generates text corpus and:
         (1) Gets Tetun text that has a probability >= threshold.
         (2) Selects text that has a length > 50 and save them to the initial corpus file.
         """
 
+        initial_corpus = []
         for doc in self.get_documents():
             text = doc.split("\n")
-            # Init: Apply Tetun LID
+            # Apply Tetun LID
             tetun_text = self.tetun_lid.get_tetun_text(text)
-            # End
             for text in tetun_text:
                 if len(text.strip()) > 50:
                     print("Initial added: ", text)
-                    with self.initial_corpus_file_path.open("a", encoding="utf-8") as initial_file:
-                        initial_file.write(text + "\n")
+                    initial_corpus.append(text)
 
-        # Add another \n to the end of each doc.
-        with self.initial_corpus_file_path.open("a", encoding="utf-8") as initial_file:
-            initial_file.write("\n")
+            # Add another \n to the end of each doc.
+            initial_corpus.append("\n")
+
+        return initial_corpus
 
 
 class GetFinalCorpus:
@@ -86,14 +84,14 @@ class GetFinalCorpus:
 
     def __init__(
         self,
-        initial_corpus_file_path: Path,
+        get_initial_corpus: callable,
         skipped_corpus_file_path: Path,
         final_corpus_file_path: Path,
         start_patterns: List[str],
         end_patterns: List[str],
         in_patterns: List[str],
     ) -> None:
-        self.initial_corpus_file_path = initial_corpus_file_path
+        self.get_initial_corpus = get_initial_corpus
         self.skipped_corpus_file_path = skipped_corpus_file_path
         self.final_corpus_file_path = final_corpus_file_path
         self.start_patterns = start_patterns
@@ -126,23 +124,25 @@ class GetFinalCorpus:
         :param max_consecutive_newlines: the maximum newlines allowed after each document.
         """
 
-        with self.initial_corpus_file_path.open("r", encoding="utf-8") as initial_file:
-            consecutive_newlines = 0
-            for line in initial_file:
-                line = line.strip()
-                if self.is_text_to_filter(line):
-                    print("Skipped: ", line)
-                    with self.skipped_corpus_file_path.open("a", encoding="utf-8") as skipped_file:
-                        skipped_file.write(line + "\n")
+        consecutive_newlines = 0
+        seen_sentences = set()
+        for line in self.get_initial_corpus:
+            line = line.strip()
+            if self.is_text_to_filter(line):
+                print("Skipped: ", line)
+                with self.skipped_corpus_file_path.open("a", encoding="utf-8") as skipped_file:
+                    skipped_file.write(line + "\n")
+                continue
+            if line not in seen_sentences:
+                if len(line) == 0:
+                    consecutive_newlines += 1
+                else:
+                    consecutive_newlines = 0
+                if len(line) == 0 and consecutive_newlines >= max_consecutive_newlines:
                     continue
                 else:
-                    if len(line) == 0:
-                        consecutive_newlines += 1
-                    else:
-                        consecutive_newlines = 0
-                    if len(line) == 0 and consecutive_newlines >= max_consecutive_newlines:
-                        continue
-                    else:
-                        with self.final_corpus_file_path.open("a", encoding="utf-8") as final_file:
-                            final_file.write(line + "\n")
-                            # print("Final added: ", line)
+                    with self.final_corpus_file_path.open("a", encoding="utf-8") as final_file:
+                        final_file.write(line + "\n")
+                    if len(line) > 0:
+                        seen_sentences.add(line)
+                    # print("Final added: ", line)
