@@ -18,13 +18,13 @@ class GetInitialCorpus:
         self,
         solr_api_url: str,
         tetun_lang: str,
-        lang_proba_treshold: float,
+        lang_proba_threshold: float,
         lid_model_file_path: Path,
     ) -> None:
         self.solr_api_url = solr_api_url
         self.tetun_lang = tetun_lang
-        self.lang_proba_treshold = lang_proba_treshold
-        self.tetun_lid = TetunLid(self.tetun_lang, self.lang_proba_treshold)
+        self.lang_proba_threshold = lang_proba_threshold
+        self.tetun_lid = TetunLid(self.tetun_lang, self.lang_proba_threshold)
         self.lid_model_file_path = lid_model_file_path
 
     def get_total_documents(self) -> int:
@@ -96,8 +96,8 @@ class GetInitialCorpus:
 
 class GetFinalCorpus:
     """
-    This class gets the input text that meets the predefined filter conditions 
-    and filters blank lines more than two times in consecutive order.
+    This class generates final text docs and excludes the input texts that meet the predefined 
+    filter conditions and blank lines more than two times in consecutive order.
     """
 
     def __init__(
@@ -140,7 +140,7 @@ class GetFinalCorpus:
         max_consecutive_newlines: int = 2,
     ) -> str:
         """
-        Gets the input text that meets the predefined filter conditions.
+        Gets the final text docs and excludes the input texts that meet the predefined filter conditions.
 
         :param initial_corpus_file_path: a path to the input file.
         :param final_corpus_file_path: a path to the output file.
