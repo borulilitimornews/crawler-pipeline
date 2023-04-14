@@ -9,10 +9,8 @@ LID_MODEL_FILE_PATH = Path("pipeline/tetun_lid/model.pkl")
 GET_SKIPPED_FILE_PATH = Path("pipeline/data/skipped_corpus.txt")
 FINAL_CORPUS_FILE_PATH = Path("pipeline/data/final_corpus.txt")
 
-
 # URLs
 SOLR_API_URL = "http://localhost:8983/solr/nutch/select"
-
 
 # Language, language model, and corpus.
 LANGUAGE = "tet"
