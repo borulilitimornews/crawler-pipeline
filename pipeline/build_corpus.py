@@ -1,5 +1,5 @@
 from common_utils import config
-from src.process_corpus import GetInitialCorpus, GetFinalCorpus
+from src.process_corpus import GetCorpus
 
 
 class BuildCorpus:
@@ -7,24 +7,21 @@ class BuildCorpus:
     then preprocesses them to get the final clean corpus """
 
     def __init__(self) -> None:
-        self.get_initial_corpus = GetInitialCorpus(
+        self.get_corpus = GetCorpus(
             config.SOLR_API_URL,
             config.LANGUAGE,
             config.LANG_PROBA_THRESHOLD,
             config.LID_MODEL_FILE_PATH,
-        )
-        self.get_final_corpus = GetFinalCorpus(
-            self.get_initial_corpus.generate_initial_corpus(),
-            config.SKIPPED_FILE_PATH,
-            config.FINAL_CORPUS_FILE_PATH,
             config.START_PATTERNS,
             config.END_PATTERNS,
             config.IN_PATTERNS,
+            config.SKIPPED_CORPUS_FILE_PATH,
+            config.FINAL_CORPUS_FILE_PATH,
         )
 
     def run(self) -> None:
         try:
-            self.get_final_corpus.get_final_text()
+            self.get_corpus.generate_corpus()
             print("\nThe final corpus has been generated sucessfully.\n\n")
 
         except Exception as e:

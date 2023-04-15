@@ -6,7 +6,7 @@ SEED_WORDS_FILE_PATH = Path("pipeline/data/seed_words.txt")
 NUTCH_SEED_URL_FILE_PATH = Path("./nutch/urls/seed.txt")
 DOMAIN_FILE_PATH = Path("pipeline/data/domains.txt")
 LID_MODEL_FILE_PATH = Path("pipeline/tetun_lid/model.pkl")
-SKIPPED_FILE_PATH = Path("pipeline/data/skipped_corpus.txt")
+SKIPPED_CORPUS_FILE_PATH = Path("pipeline/data/skipped_corpus.txt")
 FINAL_CORPUS_FILE_PATH = Path("pipeline/data/final_corpus.txt")
 
 # URLs

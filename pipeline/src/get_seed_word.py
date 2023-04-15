@@ -4,7 +4,7 @@ from collections import Counter
 from tetuntokenizer.tokenizer import TetunWordTokenizer
 from typing import List, Dict
 from common_utils.tetun_lid import TetunLid
-from common_utils.utils import load_corpus
+from common_utils.utils import Utils
 
 
 class GetSeedWords:
@@ -27,12 +27,12 @@ class GetSeedWords:
         num_seed_words_sample: int,
         seed_words_file_path: Path,
     ) -> None:
-        self.main_corpus_file_path = main_corpus_file_path
+        self.main_corpus = Utils(main_corpus_file_path)
         self.corpus_sample_ratio = corpus_sample_ratio
         self.lid_model_file_path = lid_model_file_path
         self.lang_proba_threshold = lang_proba_threshold
         self.num_seed_words_sample = num_seed_words_sample
-        self.seed_words_file_path = seed_words_file_path
+        self.seed_words_file = Utils(seed_words_file_path)
         self.tetun_lang = tetun_lang
         self.tetun_lid = TetunLid(self.tetun_lang, self.lang_proba_threshold, lid_model_file_path)
 
@@ -42,7 +42,7 @@ class GetSeedWords:
         as per the ratio and return a list of text lines.
         """
 
-        corpus = load_corpus(self.main_corpus_file_path)
+        corpus = self.main_corpus.load_corpus()
 
         corpus_size = len(corpus)
         sample_size = int(self.corpus_sample_ratio * corpus_size)
@@ -84,7 +84,6 @@ class GetSeedWords:
         """
 
         proba_dist = self.calculate_proba_distribution()
-
         sequence_words = list(proba_dist.keys())
         weights = list(proba_dist.values())
         samples = set()
@@ -95,9 +94,7 @@ class GetSeedWords:
             weights.remove(proba_dist[sample])
 
         seeds = " ".join(list(samples))
+        self.seed_words_file.save_corpus(seeds)
         print(f"Seed words: {seeds}")
-
-        with self.seed_words_file_path.open("a", encoding="utf-8") as seed_word_file:
-            seed_word_file.write(seeds + "\n")
 
         return seeds

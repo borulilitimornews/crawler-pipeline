@@ -3,7 +3,7 @@ import tldextract
 from pathlib import Path
 from typing import List
 from googlesearch import search
-from common_utils.utils import load_corpus
+from common_utils.utils import Utils
 
 
 class GetSeedUrl:
@@ -33,8 +33,8 @@ class GetSeedUrl:
         self.generate_seed_words = generate_seed_words
         self.google_search_num_result = google_search_num_result
         self.max_seed_url_length = max_seed_url_length
-        self.nutch_seed_url_file_path = nutch_seed_url_file_path
-        self.domain_file_path = domain_file_path
+        self.nutch_seed_url_file = Utils(nutch_seed_url_file_path)
+        self.domain_file = Utils(domain_file_path)
 
     def is_allowed_seed_url(self, seed: str) -> bool:
         """
@@ -59,7 +59,7 @@ class GetSeedUrl:
         :return: True if the url is new, False otherwise.
         """
 
-        new_seed_url = seed_url not in load_corpus(self.nutch_seed_url_file_path)
+        new_seed_url = seed_url not in self.nutch_seed_url_file.load_corpus()
 
         return new_seed_url
 
@@ -88,7 +88,7 @@ class GetSeedUrl:
         """
 
         domain = self.extract_domain(seed_url)
-        new_domain = domain not in load_corpus(self.domain_file_path)
+        new_domain = domain not in self.domain_file.load_corpus()
 
         return new_domain
 
@@ -103,8 +103,7 @@ class GetSeedUrl:
             if self.is_allowed_seed_url(url) and self.is_new_seed_url(url):
                 seeds.add(url)
                 if len(url) < self.max_seed_url_length:
-                    with self.nutch_seed_url_file_path.open("a", encoding="utf-8") as seed_url_file:
-                        seed_url_file.write(url + "\n")
+                    self.nutch_seed_url_file.save_corpus(url)
 
         return list(seeds)
 
@@ -121,8 +120,7 @@ class GetSeedUrl:
             domain = self.extract_domain(seed_url)
             if self.is_new_domain(seed_url):
                 domains.add(domain)
-                with self.domain_file_path.open("a", encoding="utf-8") as domain_file:
-                    domain_file.write(domain + "\n")
+                self.domain_file.save_corpus(domain)
 
         return list(domains)
 
