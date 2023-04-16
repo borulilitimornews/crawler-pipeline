@@ -107,7 +107,7 @@ class GetSeedUrl:
 
         return list(seeds)
 
-    def get_domains(self, seed_urls: List[str]) -> None:
+    def get_domains(self, seed_urls: List[str]) -> List[str]:
         """
         Gets new domains from the seed URLs.
 
@@ -130,5 +130,5 @@ class GetSeedUrl:
         seeds = self.get_seed_urls()
         domains = self.get_domains(seeds)
 
-        print(f"\nNew url(s):\n" + "\n".join(list(seeds)))
-        print(f"\nNew domain(s):\n" + "\n".join(list(domains)))
+        print(f"\nNew url(s):\n" + "\n".join(seeds))
+        print(f"\nNew domain(s):\n" + "\n".join(domains))

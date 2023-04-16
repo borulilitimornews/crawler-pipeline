@@ -51,8 +51,12 @@ class GetCorpus:
     def get_documents(self) -> List[str]:
         """ Retrieves documents from the Solr and return their list. """
 
-        params = {"q": "*:*", "wt": "json", "start": 0, "rows": 100}  # self.get_total_documents(),
-
+        params = {
+            "q": "*:*",
+            "wt": "json",
+            "start": 0,
+            "rows": self.get_total_documents(),
+        }
         response = requests.get(self.solr_api_url, params=params)
         data = json.loads(response.text)
         docs = [d.get("content") for d in data["response"]["docs"] if d.get("content") is not None]
@@ -84,9 +88,9 @@ class GetCorpus:
         (1) Gets Tetun text that has a probability >= threshold.
         (2) Selects text that has a length > 50 and save them to the initial corpus file.
         """
+
         consecutive_newlines = 0
         seen_sentences = set()
-
         for doc in self.get_documents():
             text = doc.split("\n")
             tetun_text = self.tetun_lid.get_tetun_text(text)  # Apply Tetun LID
@@ -107,7 +111,7 @@ class GetCorpus:
                             continue
                         else:
                             self.final_corpus.save_corpus(text_line)
-                            # Add new line at the end of each non-empty document
+                            # Add a new line at the end of each non-empty document
                             if index == len(tetun_text) - 1:
                                 self.final_corpus.save_corpus(is_not_eol=False)
                             if len(text_line) > 0:

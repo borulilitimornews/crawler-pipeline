@@ -12,9 +12,11 @@ class Utils:
         try:
             with self.file_path.open("r", encoding="utf-8") as load_file:
                 contents = [line.strip() for line in load_file]
+
         except FileNotFoundError:
             print(f"File not found at: {self.file_path}")
             return []
+
         except UnicodeDecodeError:
             print(f"Cannot decode file at: {self.file_path}")
             return []
