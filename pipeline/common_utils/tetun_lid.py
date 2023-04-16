@@ -29,11 +29,11 @@ class TetunLid:
 
     def get_tetun_text(self, input_text: List[str]) -> List[str]:
         """
-            Gets Tetun words with a probability >= threshold. 
+        Gets Tetun words with a probability >= threshold. 
 
-            :param input_text: a list of string.
-            :return: a list of texts.
-            """
+        :param input_text: a list of string.
+        :return: a list of texts.
+        """
 
         tetun_text = []
         tetun_lid_model = self.load_lid_model()
