@@ -3,6 +3,8 @@ from typing import List
 
 
 class Utils:
+    """ This class contains functions to load and write a text corpus from/to a file. """
+
     def __init__(self, file_path: Path) -> None:
         self.file_path = file_path
 
