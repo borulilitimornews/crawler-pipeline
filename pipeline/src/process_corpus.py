@@ -86,7 +86,8 @@ class GetCorpus:
         """
         Generates text corpus and:
         (1) Gets Tetun text that has a probability >= threshold.
-        (2) Selects text that has a length > 50 and save them to the initial corpus file.
+        (2) Selects text that has a length > 50 and save them to the final corpus file.
+        (3) Add a newline at the end of each documents.
         """
 
         consecutive_newlines = 0
