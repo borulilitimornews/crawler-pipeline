@@ -5,3 +5,4 @@ pipeline/tetun_lid
 Pipfile.lock
 .DS_Store
 .vscode
+.gitignore

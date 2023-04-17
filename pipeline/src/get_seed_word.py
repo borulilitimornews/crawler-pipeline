@@ -39,7 +39,7 @@ class GetSeedWords:
     def get_sample_corpus(self) -> List[str]:
         """
         Generates a random text sample from the corpus 
-        as per the ratio and return a list of text lines.
+        as per the ratio and return a list of the texts.
         """
 
         corpus = self.main_corpus.load_corpus()
@@ -51,7 +51,7 @@ class GetSeedWords:
         return sample_corpus
 
     def tokenize_sample_corpus(self) -> List[str]:
-        """ Tokenizes the sample corpus into tokens and return a list of words. """
+        """ Tokenizes the sample corpus into tokens and return them a list of words. """
 
         doc = self.get_sample_corpus()
         print(f"\nTotal corpus sample: {len(doc)} sentences.")

@@ -3,8 +3,7 @@ from src.process_corpus import GetCorpus
 
 
 class BuildCorpus:
-    """ This class first extracts Tetun text from the mixed documents, 
-    then preprocesses them to get the final clean corpus """
+    """ This class generates texts for the Tetun corpus and save them in a file. """
 
     def __init__(self) -> None:
         self.get_corpus = GetCorpus(
