@@ -7,9 +7,7 @@ from typing import List
 
 
 class DocumentProcess:
-    """ 
-    This class retrieves documents from Solr.
-    """
+    """ This class retrieves documents from Solr. """
 
     def __init__(self, solr_api_url: str, start_solr_docs: int, total_solr_docs: int) -> None:
         self.solr_api_url = solr_api_url
