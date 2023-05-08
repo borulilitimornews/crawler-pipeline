@@ -11,6 +11,7 @@ tetun-tokenizer = "*"
 requests = "*"
 tldextract = "*"
 googlesearch-python = "*"
+beautifulsoup4 = "*"
 
 [dev-packages]
 

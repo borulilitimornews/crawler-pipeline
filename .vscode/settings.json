@@ -1,8 +1,14 @@
 {
     "editor.formatOnSave": true,
     "notebook.formatOnSave.enabled": true,
-    "python.formatting.provider": "black",
+    "python.formatting.provider": "none",
     "python.formatting.blackPath": "black",
-    "python.formatting.blackArgs": ["--line-length", "100"],
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "79"
+    ],
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
 
 }
