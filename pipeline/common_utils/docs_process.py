@@ -37,7 +37,7 @@ class DocumentProcess:
 
         return docs
     
-    
+
 def extract_domain(seed_url) -> str:
     """
     Gets the domain name from an url.

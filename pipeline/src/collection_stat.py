@@ -2,6 +2,7 @@ import os
 import requests
 from common_utils.docs_process import DocumentProcess, extract_domain
 from common_utils.tetun_lid import TetunLid
+from common_utils.utils import Utils
 from pathlib import Path
 from bs4 import BeautifulSoup
 import numpy as np
@@ -12,9 +13,11 @@ warnings.filterwarnings("ignore")
 class CollectionStatistic:
     """ 
     This class generates the collection's statistics consist of:
-    (1) Total links per domain.
-    (2) Total documents per extension.
-    (3) Total inlinks and outlinks per document. 
+    (1) Total inlinks and outlinks per document.
+    (2) Total documents (links).  
+    (3) Total documents per domain.
+    (4) Total documents per extension.
+    
     """
     def __init__(
         self, solr_api_url: str, 
@@ -22,27 +25,33 @@ class CollectionStatistic:
         total_solr_docs: int,
         tetun_lang: str,
         lang_proba_threshold: float,
-        lid_model_file_path: Path
+        lid_model_file_path: Path,
+        url_in_out_links_file_path: Path,
+        stats_in_out_links_file_path: Path
     ) -> None: 
         self.document_process = DocumentProcess(solr_api_url, start_solr_docs, total_solr_docs)
         self.tetun_lid = TetunLid(tetun_lang, lang_proba_threshold, lid_model_file_path)
+        self.url_in_out_links = Utils(url_in_out_links_file_path)
+        self.stats_in_out_links_file_path = Utils(stats_in_out_links_file_path)
 
-    def generate_stats(self):
+    def generate_stats(self) -> None:
         """ Extract domains and extensions frequency from the urls, including inlinks and outlinks. """
 
         get_titles = [d.get("title") for d in self.document_process.get_documents() if d.get("title") is not None]
-        valid_titles = self.tetun_lid.get_tetun_text(get_titles) # Apply Tetun LID
-        valid_titles_unique = list(set(valid_titles))
+        temp_titles = self.tetun_lid.get_tetun_text(get_titles) # Apply Tetun LID
+        valid_titles_unique = list(set(temp_titles))
 
         domain_counts = {}
         extension_counts = {}
         outlink_count_list = []
         inlink_count_list = []
+        total_documents = 0
         for doc in self.document_process.get_documents():
             title = doc.get("title")
             url = doc.get("url")
 
-            if title in valid_titles_unique:
+            if title in valid_titles_unique and 'feed' not in url:
+                total_documents += 1 
                 # Domains
                 domain = extract_domain(url)
                 if domain in domain_counts:
@@ -85,15 +94,22 @@ class CollectionStatistic:
 
                 outlink_count_list.append(outlink_count)
                 inlink_count_list.append(inlink_count)
-                #print(f"Url: {url}, Outlink: {outlink_count}, Inlink: {inlink_count}")
+                self.url_in_out_links.save_corpus(f"Url: {url}, Outlink: {outlink_count}, Inlink: {inlink_count}")
 
-        print(f"Max outlinks: {max(outlink_count_list)}, Min outlinks: {min(outlink_count_list)}, Average oulinks: {np.mean(outlink_count_list)}")
-        print(f"Max inlinks: {max(inlink_count_list)}, Min inlinks: {min(inlink_count_list)}, Average inlinks: {np.mean(inlink_count_list)}")
+        # Save the inlinks and outlinks summary        
+        stat_inlinks_outlinks = f"""
+        ========================================
+        Total documents: {total_documents}\n
+        Max outlinks: {max(outlink_count_list)}, Min outlinks: {min(outlink_count_list)}, Average oulinks: {np.mean(outlink_count_list)}
+        Max inlinks: {max(inlink_count_list)}, Min inlinks: {min(inlink_count_list)}, Average inlinks: {np.mean(inlink_count_list)}
+        ========================================
+        """
+        self.stats_in_out_links_file_path.save_corpus(stat_inlinks_outlinks)
 
         sorted_domain_items = sorted(domain_counts.items(), key=lambda x: x[1], reverse=True)
-        for domain, count in sorted_domain_items[:5]:
-            print(f"Domain: {domain}, total_docs: {count}")
+        for domain, count in sorted_domain_items:
+            self.stats_in_out_links_file_path.save_corpus(f"Domain: {domain}, total_docs: {count}")
         
         sorted_extension_items = sorted(extension_counts.items(), key=lambda x: x[1], reverse=True)
-        for extension, count in sorted_extension_items[:5]:
-            print(f"Extension: {extension}, total_docs: {count}")
+        for extension, count in sorted_extension_items:
+            self.stats_in_out_links_file_path.save_corpus(f"\nExtension: {extension}, total_docs: {count}")

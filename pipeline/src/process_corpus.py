@@ -50,16 +50,13 @@ class GetCorpus:
         logging.info("Validating titles...")
         valid_titles = self.tetun_lid.get_tetun_text(get_titles)
         valid_titles_unique = list(set(valid_titles))
-        logging.info(
-            f"\n========================\nTotal valid title: {len(valid_titles_unique)}\n========================"
-        )
 
         for doc in self.document_process.get_documents():
             title = doc.get("title")
             url = doc.get("url")
             content = doc.get("content")
 
-            if title in valid_titles_unique:
+            if title in valid_titles_unique and 'feed' not in url:
                 self.final_corpus.save_corpus(title)
                 self.final_corpus.save_corpus(url)
 

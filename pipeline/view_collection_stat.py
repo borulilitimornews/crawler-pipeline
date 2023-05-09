@@ -11,7 +11,9 @@ class ViewCollectionStatistic:
             config.TOTAL_SOLR_DOCS,
             config.LANGUAGE,
             config.LANG_PROBA_THRESHOLD,
-            config.LID_MODEL_FILE_PATH
+            config.LID_MODEL_FILE_PATH,
+            config.URL_INL_OUT_LINKS_FILE_PATH,
+            config.STATS_INL_OUT_LINKS_FILE_PATH
         )
 
     def run(self):
