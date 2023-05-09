@@ -12,13 +12,13 @@ warnings.filterwarnings("ignore")
 
 class CollectionStatistic:
     """ 
-    This class generates the collection's statistics consist of:
-    (1) Total inlinks and outlinks per document.
-    (2) Total documents (links).  
+    This class generates the collection's statistics that consist of:
+    (1) Total inlinks and outlinks per document (url).
+    (2) Total documents.  
     (3) Total documents per domain.
     (4) Total documents per extension.
-    
     """
+    
     def __init__(
         self, solr_api_url: str, 
         start_solr_docs: int, 
@@ -50,7 +50,9 @@ class CollectionStatistic:
             title = doc.get("title")
             url = doc.get("url")
 
-            if title in valid_titles_unique and 'feed' not in url:
+            if title in valid_titles_unique and '/feed' not in url and '/tag' not in url: # Urls contain '/feed' and '/tag' are excluded.
+                if "wikipedia" in url and not "tet.wikipedia.org" in url: # Ensure that only Tetun wikipedia data is executed.
+                    continue       
                 total_documents += 1 
                 # Domains
                 domain = extract_domain(url)
@@ -97,19 +99,21 @@ class CollectionStatistic:
                 self.url_in_out_links.save_corpus(f"Url: {url}, Outlink: {outlink_count}, Inlink: {inlink_count}")
 
         # Save the inlinks and outlinks summary        
-        stat_inlinks_outlinks = f"""
+        stat_inlinks_outlinks = f""" Summary of the collection:
         ========================================
-        Total documents: {total_documents}\n
-        Max outlinks: {max(outlink_count_list)}, Min outlinks: {min(outlink_count_list)}, Average oulinks: {np.mean(outlink_count_list)}
-        Max inlinks: {max(inlink_count_list)}, Min inlinks: {min(inlink_count_list)}, Average inlinks: {np.mean(inlink_count_list)}
+        Total web pages (urls) processed: {total_documents}\n
+        Max outlinks: {max(outlink_count_list)}, Min outlinks: {min(outlink_count_list)}, Average oulinks: {np.mean(outlink_count_list):.2f}
+        Max inlinks: {max(inlink_count_list)}, Min inlinks: {min(inlink_count_list)}, Average inlinks: {np.mean(inlink_count_list):.2f}
         ========================================
         """
-        self.stats_in_out_links_file_path.save_corpus(stat_inlinks_outlinks)
+        self.stats_in_out_links_file_path.save_corpus(stat_inlinks_outlinks.strip())
 
+        self.stats_in_out_links_file_path.save_corpus(f"\n========= Domain: total documents in the corresponding domain =========")
         sorted_domain_items = sorted(domain_counts.items(), key=lambda x: x[1], reverse=True)
         for domain, count in sorted_domain_items:
             self.stats_in_out_links_file_path.save_corpus(f"Domain: {domain}, total_docs: {count}")
         
+        self.stats_in_out_links_file_path.save_corpus(f"\n========= Extension: total documents with the corresponding extension =========")
         sorted_extension_items = sorted(extension_counts.items(), key=lambda x: x[1], reverse=True)
         for extension, count in sorted_extension_items:
-            self.stats_in_out_links_file_path.save_corpus(f"\nExtension: {extension}, total_docs: {count}")
+            self.stats_in_out_links_file_path.save_corpus(f"Extension: {extension}, total_docs: {count}")

@@ -19,7 +19,7 @@ class ConstructCorpus:
     def run(self) -> None:
         try:
             self.get_corpus.generate_corpus()
-            print("\nThe final corpus has been generated sucessfully.\n\n")
+            #print("\nThe final corpus has been generated sucessfully.\n\n")
 
         except Exception as e:
             print(f"\nError while generating the final corpus: {e}\n")

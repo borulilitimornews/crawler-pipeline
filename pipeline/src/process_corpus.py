@@ -35,7 +35,7 @@ class GetCorpus:
             level=logging.DEBUG,
             format="%(asctime)s %(levelname)s: %(message)s"
         )
-  
+
     def generate_corpus(self, max_consecutive_newlines: int = 2) -> None:
         """
         Generates text corpus and:
@@ -56,7 +56,10 @@ class GetCorpus:
             url = doc.get("url")
             content = doc.get("content")
 
-            if title in valid_titles_unique and 'feed' not in url:
+            if title in valid_titles_unique and '/feed' not in url and '/tag' not in url: # Urls contain '/feed' and '/tag' are excluded.
+                if "wikipedia" in url and not "tet.wikipedia.org" in url: # Ensure that only Tetun wikipedia data is executed.
+                    continue
+
                 self.final_corpus.save_corpus(title)
                 self.final_corpus.save_corpus(url)
 

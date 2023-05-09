@@ -1,5 +1,7 @@
 from pathlib import Path
 
+""" This module contains configuration of the paths, urls, patterns, etc. """
+
 # File paths
 MAIN_CORPUS_FILE_PATH = Path("pipeline/data/timornews_corpus.txt")
 SEED_WORDS_FILE_PATH = Path("pipeline/data/seed_words.txt")
@@ -11,10 +13,10 @@ STATS_INL_OUT_LINKS_FILE_PATH = Path("pipeline/data/stats_inlinks_outlinks.txt")
 URL_INL_OUT_LINKS_FILE_PATH = Path("pipeline/data/url_inlinks_outlinks.txt")
 LOG_FILE = Path("pipeline/logs/execution.log")
 
-# URLs
+# Solr
 SOLR_API_URL = "http://localhost:8983/solr/nutch/select"
 START_SOLR_DOCS = 0
-TOTAL_SOLR_DOCS = 2000 #355987
+TOTAL_SOLR_DOCS = 5000 #355987
 
 # Language, language model, and corpus.
 LANGUAGE = "tet"
