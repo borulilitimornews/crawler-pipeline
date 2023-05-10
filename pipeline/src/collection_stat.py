@@ -92,24 +92,27 @@ class CollectionStatistic:
 
                 # Outlinks and Inlinks for each URL
                 response = requests.get(url)
-                soup = BeautifulSoup(response.content, 'html.parser')
-                links = soup.find_all('a')
-                
-                outlink_count = 0
-                inlink_count = 0
-                for link in links:
-                    href = link.get('href')
-                    if href and (href.startswith('http://') or href.startswith('https://')):
-                        if domain not in href:
-                            outlink_count += 1
-                        else:
+                if response.status_code == 200:
+                    soup = BeautifulSoup(response.content, 'html.parser')
+                    links = soup.find_all('a')
+                    
+                    outlink_count = 0
+                    inlink_count = 0
+                    for link in links:
+                        href = link.get('href')
+                        if href and (href.startswith('http://') or href.startswith('https://')):
+                            if domain not in href:
+                                outlink_count += 1
+                            else:
+                                inlink_count += 1
+                        elif href and not href.startswith('#'):
                             inlink_count += 1
-                    elif href and not href.startswith('#'):
-                        inlink_count += 1
 
-                outlink_count_list.append(outlink_count)
-                inlink_count_list.append(inlink_count)
-                self.url_in_out_links.save_corpus(f"Url: {url}, Outlink: {outlink_count}, Inlink: {inlink_count}")
+                    outlink_count_list.append(outlink_count)
+                    inlink_count_list.append(inlink_count)
+                    self.url_in_out_links.save_corpus(f"Url: {url}, Outlink: {outlink_count}, Inlink: {inlink_count}")
+                else:
+                    continue
 
         # Save the inlinks and outlinks summary        
         stat_inlinks_outlinks = f""" The statistics of the collection:

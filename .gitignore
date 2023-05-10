@@ -5,6 +5,7 @@ pipeline/tetun_lid
 Pipfile.lock
 .DS_Store
 .vscode
-.gitignore
 logs/
 bin/
+pipeline/src/__pycache__/
+pipeline/common_utils/__pycache__/
