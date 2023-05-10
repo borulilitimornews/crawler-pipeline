@@ -44,7 +44,8 @@ class GetCorpus:
         (3) Save title, url and its content that has a proba >= threshold to the final corpus file.
         (4) Add a newline to the end of each document.
         """
-
+        
+        logging.info("Generating final corpus...")
         logging.info("Generating titles...")
         get_titles = [d.get("title") for d in self.document_process.get_documents() if d.get("title") is not None]
         logging.info("Validating titles...")
@@ -57,7 +58,9 @@ class GetCorpus:
             content = doc.get("content")
 
             if title in valid_titles_unique and '/feed' not in url and '/tag' not in url: # Urls contain '/feed' and '/tag' are excluded.
-                if "wikipedia" in url and not "tet.wikipedia.org" in url: # Ensure that only Tetun wikipedia data is executed.
+                if "wikipedia" in url and not "tet.wikipedia.org" in url: # Ensure that only Tetun wikipedia data is processed.
+                    continue
+                if "wikidata" in url: # The wikidata for Tetun does not exist.
                     continue
 
                 self.final_corpus.save_corpus(title)
