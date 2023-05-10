@@ -7,6 +7,8 @@ from common_utils.utils import Utils
 from common_utils import config
 from pathlib import Path
 from bs4 import BeautifulSoup
+from bs4.builder import ParserRejectedMarkup
+from requests import exceptions
 import numpy as np
 import warnings
 
@@ -114,8 +116,8 @@ class CollectionStatistic:
                         self.url_in_out_links.save_corpus(f"Url: {url}, Outlink: {outlink_count}, Inlink: {inlink_count}")
                     else:
                         continue
-                except (requests.exceptions.RequestException, requests.exceptions.ConnectionError, requests.exceptions.HTTPError, 
-                        requests.exceptions.Timeout, requests.exceptions.TooManyRedirects, requests.exceptions.URLRequired):
+                except (exceptions.RequestException, exceptions.ConnectionError, exceptions.HTTPError, exceptions.Timeout, 
+                        exceptions.TooManyRedirects, exceptions.URLRequired, ParserRejectedMarkup):
                     continue
 
         # Save the inlinks and outlinks summary        

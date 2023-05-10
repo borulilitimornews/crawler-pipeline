@@ -39,7 +39,7 @@ class GetSeedWords:
     def get_sample_corpus(self) -> List[str]:
         """
         Generates a random text sample from the corpus 
-        as per the ratio and return a list of the texts.
+        as per the predefined ratio and return it in a list of strings.
         """
 
         corpus = self.main_corpus.load_corpus()
@@ -51,7 +51,7 @@ class GetSeedWords:
         return sample_corpus
 
     def tokenize_sample_corpus(self) -> List[str]:
-        """ Tokenizes the sample corpus into tokens and return them a list of words. """
+        """ Tokenizes the sample corpus into tokens and return them in a list of strings. """
 
         doc = self.get_sample_corpus()
         print(f"\nTotal corpus sample: {len(doc)} sentences.")
@@ -64,7 +64,7 @@ class GetSeedWords:
 
     def calculate_proba_distribution(self) -> Dict:
         """
-        Counts the word frequency and calculate its probability of distribution and 
+        Counts word frequency, calculate its probability of distribution and 
         return a dictionary contains words and their distribution probability.
         """
 
