@@ -6,6 +6,5 @@ Pipfile.lock
 .DS_Store
 .vscode
 logs/
-bin/
 pipeline/src/__pycache__/
 pipeline/common_utils/__pycache__/
