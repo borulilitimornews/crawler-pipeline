@@ -4,15 +4,17 @@
 echo "Initiating the crawling process ..."
 
 # Generate seed words and seed URLS
-# Loop to run the seeder.py script 5 times
-for i in {1..5}; do
+# Loop to run the seeder.py script 10 times
+for i in {1..10}; do
     echo "Generating seed words and seed URLS for the $i time ..."
     python3 ./pipeline/seeder.py
 done
 
 # Crawling the World Wide Web
 echo "Crawling the World Wide Web ..."
-./nutch/bin/crawl -i -s urls/ --hostdbupdate --hostdbgenerate crawl/ 5
+cd nutch
+./bin/crawl -i -s urls/ --hostdbupdate --hostdbgenerate crawl/ 5
+cd ..
 # Crawling concluded
 echo "The crawling have been successfully concluded."
 
