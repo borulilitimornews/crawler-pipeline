@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 joblib = "*"
-unidecode = "*"
 scikit-learn = "*"
 tetun-tokenizer = "*"
 requests = "*"
