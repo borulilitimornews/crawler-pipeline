@@ -12,7 +12,9 @@ done
 
 # Crawling the World Wide Web
 echo "Crawling the World Wide Web ..."
-./nutch/bin/crawl -i -s urls/ --hostdbupdate --hostdbgenerate crawl/ 5
+cd nutch
+./bin/crawl -i -s urls/ --hostdbupdate --hostdbgenerate crawl/ 5
+cd ..
 # Crawling concluded
 echo "The crawling have been successfully concluded."
 
