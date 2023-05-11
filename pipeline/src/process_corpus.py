@@ -20,8 +20,6 @@ class GetCorpus:
     def __init__(
         self,
         solr_api_url: str,
-        start_solr_docs: int,
-        total_solr_docs: int,
         tetun_lang: str,
         lang_proba_threshold: float,
         lid_model_file_path: Path,
@@ -29,7 +27,7 @@ class GetCorpus:
     ) -> None:
         self.tetun_lid = TetunLid(tetun_lang, lang_proba_threshold, lid_model_file_path)
         self.final_corpus = Utils(final_corpus_file_path)
-        self.document_process = DocumentProcess(solr_api_url, start_solr_docs, total_solr_docs)
+        self.document_process = DocumentProcess(solr_api_url)
         logging.basicConfig(
             filename=config.LOG_FILE,
             level=logging.DEBUG,

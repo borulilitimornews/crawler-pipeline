@@ -9,10 +9,8 @@ from typing import List
 class DocumentProcess:
     """ This class retrieves documents from Solr. """
 
-    def __init__(self, solr_api_url: str, start_solr_docs: int, total_solr_docs: int) -> None:
+    def __init__(self, solr_api_url: str) -> None:
         self.solr_api_url = solr_api_url
-        self.start_solr_docs =  start_solr_docs
-        #self.total_solr_docs = total_solr_docs
         logging.basicConfig(
             filename=config.LOG_FILE,
             level=logging.DEBUG,
@@ -35,7 +33,7 @@ class DocumentProcess:
         params = {
             "q": "*:*",
             "wt": "json",
-            "start": self.start_solr_docs,
+            "start": 0,
             "rows": self.get_total_documents() #self.total_solr_docs,
         }
 

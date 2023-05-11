@@ -4,7 +4,7 @@
 echo "Initiating the crawling process ..."
 
 # Generate seed words and seed URLS
-# Loop to run the seeder.py script 10 times
+# Loop to run the seeder.py script  times
 for i in {1..10}; do
     echo "Generating seed words and seed URLS for the $i time ..."
     python3 ./pipeline/seeder.py

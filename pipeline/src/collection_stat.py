@@ -24,16 +24,14 @@ class CollectionStatistic:
     """
     
     def __init__(
-        self, solr_api_url: str, 
-        start_solr_docs: int, 
-        total_solr_docs: int,
+        self, solr_api_url: str,
         tetun_lang: str,
         lang_proba_threshold: float,
         lid_model_file_path: Path,
         url_in_out_links_file_path: Path,
         stats_in_out_links_file_path: Path
     ) -> None: 
-        self.document_process = DocumentProcess(solr_api_url, start_solr_docs, total_solr_docs)
+        self.document_process = DocumentProcess(solr_api_url)
         self.tetun_lid = TetunLid(tetun_lang, lang_proba_threshold, lid_model_file_path)
         self.url_in_out_links = Utils(url_in_out_links_file_path)
         self.stats_in_out_links_file_path = Utils(stats_in_out_links_file_path)
