@@ -8,7 +8,7 @@ class ViewCollectionStatistic:
         self.collection_stat = CollectionStatistic(
             config.SOLR_API_URL,
             config.START_SOLR_DOCS,
-            config.TOTAL_SOLR_DOCS,
+            #config.TOTAL_SOLR_DOCS,
             config.LANGUAGE,
             config.LANG_PROBA_THRESHOLD,
             config.LID_MODEL_FILE_PATH,

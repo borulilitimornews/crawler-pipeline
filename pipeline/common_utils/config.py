@@ -16,7 +16,7 @@ LOG_FILE = Path("pipeline/logs/execution.log")
 # Solr
 SOLR_API_URL = "http://localhost:8983/solr/nutch/select"
 START_SOLR_DOCS = 0
-TOTAL_SOLR_DOCS = 355987
+#TOTAL_SOLR_DOCS = 355987
 
 # Language, language model, and corpus.
 LANGUAGE = "tet"

@@ -12,12 +12,22 @@ class DocumentProcess:
     def __init__(self, solr_api_url: str, start_solr_docs: int, total_solr_docs: int) -> None:
         self.solr_api_url = solr_api_url
         self.start_solr_docs =  start_solr_docs
-        self.total_solr_docs = total_solr_docs
+        #self.total_solr_docs = total_solr_docs
         logging.basicConfig(
             filename=config.LOG_FILE,
             level=logging.DEBUG,
             format="%(asctime)s %(levelname)s: %(message)s"
         )
+
+    def get_total_documents(self) -> int:
+        """ Gets total documents from the Solr and return it. """
+
+        params = {"q": "*:*", "rows": 0}
+        response = requests.get(self.solr_api_url, params=params)
+        response_json = response.json()
+        total_doc = response_json["response"]["numFound"]
+
+        return total_doc
 
     def get_documents(self) -> List[str]:
         """ Gets documents from Solr and return them. """
@@ -26,7 +36,7 @@ class DocumentProcess:
             "q": "*:*",
             "wt": "json",
             "start": self.start_solr_docs,
-            "rows": self.total_solr_docs,
+            "rows": self.get_total_documents() #self.total_solr_docs,
         }
 
         logging.info("Getting json data from Solr...")
