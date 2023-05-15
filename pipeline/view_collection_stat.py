@@ -14,7 +14,7 @@ class ViewCollectionStatistic:
             config.STATS_INL_OUT_LINKS_FILE_PATH
         )
 
-    def run(self):
+    def run(self) -> None:
         self.collection_stat.generate_stats()
 
 if __name__ == '__main__':

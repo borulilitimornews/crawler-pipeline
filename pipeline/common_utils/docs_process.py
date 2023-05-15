@@ -34,7 +34,7 @@ class DocumentProcess:
             "q": "*:*",
             "wt": "json",
             "start": 0,
-            "rows": self.get_total_documents() #self.total_solr_docs,
+            "rows": self.get_total_documents()
         }
 
         logging.info("Getting json data from Solr...")
@@ -46,7 +46,7 @@ class DocumentProcess:
         return docs
     
 
-def extract_domain(seed_url) -> str:
+def extract_domain(seed_url: str) -> str:
     """
     Gets the domain name from an url.
 

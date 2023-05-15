@@ -78,12 +78,13 @@ class CollectionStatistic:
                 filename = os.path.basename(url) # Extract the last part of the URL
                 extension = os.path.splitext(filename)[1].lower() if '.' in filename else ''
                 # Uniformize the MS. Office extensions
+                # Uniformize the MS Office extensions
                 if extension == 'doc':
                     extension = 'docx'
-                if extension == 'ppt':
-                    extension == 'pptx'
-                if extension == 'xls':
-                    extension == 'xlsx'
+                elif extension == 'xls':
+                    extension = 'xlsx'
+                elif extension in ['ppt', 'pps', 'ppsx']:
+                    extension = 'pptx'
 
                 if extension in extension_counts:
                     extension_counts[extension] += 1

@@ -18,7 +18,7 @@ class MainSeeder:
             config.SEED_WORDS_FILE_PATH,
         )
         self.get_url = GetSeedUrl(
-            config.EXTENSION_TO_EXCLUDE,
+            config.EXTENSIONS_TO_EXCLUDE,
             config.DOMAINS_TO_EXCLUDE,
             get_seed_word.generate_seed_words(),
             config.GOOGLE_SEARCH_NUM_RESULT,

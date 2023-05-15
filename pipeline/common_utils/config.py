@@ -25,7 +25,7 @@ GOOGLE_SEARCH_NUM_RESULT = 10
 MAX_SEED_URL_LENGTH = 300
 
 # Patterns to exclude the URLs retrieved for the seed URLs.
-EXTENSION_TO_EXCLUDE = [
+EXTENSIONS_TO_EXCLUDE = [
     "\.(rtf)$",
     "\.pptx?$",
     "\.docx?$",
