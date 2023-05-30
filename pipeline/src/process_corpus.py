@@ -25,7 +25,8 @@ class GetCorpus:
         lid_model_file_path: Path,
         final_corpus_file_path: Path,
     ) -> None:
-        self.tetun_lid = TetunLid(tetun_lang, lang_proba_threshold, lid_model_file_path)
+        self.tetun_lid = TetunLid(
+            tetun_lang, lang_proba_threshold, lid_model_file_path)
         self.final_corpus = Utils(final_corpus_file_path)
         self.document_process = DocumentProcess(solr_api_url)
         logging.basicConfig(
@@ -42,10 +43,11 @@ class GetCorpus:
         (3) Save title, url and its content that has a proba >= threshold to the final corpus file.
         (4) Add a newline to the end of each document.
         """
-        
+
         logging.info("Generating final corpus...")
         logging.info("Generating titles...")
-        get_titles = [d.get("title") for d in self.document_process.get_documents() if d.get("title") is not None]
+        get_titles = [d.get("title") for d in self.document_process.get_documents(
+        ) if d.get("title") is not None]
         logging.info("Validating titles...")
         valid_titles = self.tetun_lid.get_tetun_text(get_titles)
         valid_titles_unique = list(set(valid_titles))
@@ -55,10 +57,12 @@ class GetCorpus:
             url = doc.get("url")
             content = doc.get("content")
 
-            if title in valid_titles_unique and '/feed' not in url and '/tag' not in url: # Urls contain '/feed' and '/tag' are excluded.
-                if "wikipedia" in url and not "tet.wikipedia.org" in url: # Ensure that only Tetun wikipedia data is processed.
+            # Urls contain '/feed' and '/tag' are excluded.
+            if title in valid_titles_unique and '/feed' not in url and '/tag' not in url:
+                # Ensure that only Tetun wikipedia data is processed.
+                if "wikipedia" in url and not "tet.wikipedia.org" in url:
                     continue
-                if "wikidata" in url: # The wikidata for Tetun does not exist.
+                if "facebook" in url:  # Excluding facebook since its content cannot be extracted.
                     continue
 
                 self.final_corpus.save_corpus(title)
@@ -67,7 +71,8 @@ class GetCorpus:
                 consecutive_newlines = 0
                 seen_sentences = set()
                 text_lines = content.split("\n")
-                tetun_text = self.tetun_lid.get_tetun_text(text_lines)  # Apply Tetun LID
+                tetun_text = self.tetun_lid.get_tetun_text(
+                    text_lines)  # Apply Tetun LID
                 for index, doc in enumerate(tetun_text):
                     text_line = doc.strip()
                     if text_line not in seen_sentences:

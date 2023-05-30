@@ -8,3 +8,5 @@ Pipfile.lock
 logs/
 pipeline/src/__pycache__/
 pipeline/common_utils/__pycache__/
+evaluation/__pycache__/
+evaluation/data

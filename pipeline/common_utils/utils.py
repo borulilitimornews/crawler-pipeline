@@ -25,6 +25,18 @@ class Utils:
 
         return contents
 
+    def load_final_corpus(self):
+        """ Load and read the final corpus. """
+        try:
+            with self.file_path.open("r", encoding="utf-8") as load_file:
+                contents = load_file.read()
+
+        except FileNotFoundError:
+            print(f"File not found at: {self.file_path}")
+            return []
+
+        return contents
+
     def save_corpus(self, text_line: str = None, is_not_eol: bool = True):
         """ Save the text corpus (append), if it is an EOL then add a new line. """
         with self.file_path.open("a", encoding="utf-8") as write_file:
