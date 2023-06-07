@@ -28,7 +28,7 @@ class GetSampleCorpus:
             try:
                 with open(sample_path, 'w', encoding='utf-8') as f_sample:
                     f_sample.write(ramdom_contents)
-            except FileNotFoundError as e:
+            except FileNotFoundError:
                 print(f"Folder not found at: {self.corpus_sample_dir_path}")
                 return []
         print(

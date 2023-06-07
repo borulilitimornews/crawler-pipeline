@@ -81,7 +81,7 @@ class GetSeedWords:
 
     def generate_seed_words(self) -> str:
         """
-        Samples three unique words and save them to the seed file 
+        Samples three unique words and save them into the seed file 
         and return a string of sampled words.
         """
 

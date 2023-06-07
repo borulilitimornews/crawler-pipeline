@@ -38,7 +38,7 @@ class GetSeedUrl:
     def is_allowed_seed_url(self, seed_url: str) -> bool:
         """
         Checks if the given urls' domain is not part of the domain excluded list 
-        and it still not exists on the seed url file.
+        and it is still not existed on the seed url file.
 
         :param seed: a seed url.
         :return: True if the url is allowed, False otherwise.
@@ -52,7 +52,7 @@ class GetSeedUrl:
 
     def is_new_seed_url(self, seed_url: str) -> bool:
         """
-        Checks if it is a new url.
+        Checks if the given url is new.
 
         :param seed_url: a seed url.
         :return: True if the url is new, False otherwise.
@@ -77,7 +77,7 @@ class GetSeedUrl:
 
     def get_seed_urls(self) -> List[str]:
         """
-        Gets new seeds having length < 300 and save them to the seed file 
+        Gets new seeds having length < 300 and save them into the seed file 
         and return a list of seed URLs.
         """
 
