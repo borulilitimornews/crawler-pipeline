@@ -10,22 +10,22 @@ for i in {1..10}; do
    python3 ./pipeline/seeder.py
 done
 
-# # Crawling the World Wide Web
-# echo "Crawling the World Wide Web ..."
-# cd nutch
-# ./bin/crawl -i -s urls/ --hostdbupdate --hostdbgenerate crawl/ 15
-# cd ..
-# Crawling concluded
-# echo "The crawling have been successfully concluded."
+# Crawling the World Wide Web
+echo "Crawling the World Wide Web ..."
+cd nutch
+./bin/crawl -i -s urls/ --hostdbupdate --hostdbgenerate crawl/ 15
+cd ..
+Crawling concluded
+echo "The crawling have been successfully concluded."
 
-# # Construct text corpus
-# echo "Constructing text corpus ..."
-# python3 ./pipeline/construct_corpus.py
-# # Corpus concluded
-# echo "The corpus have been successfully generated."
+# Construct text corpus
+echo "Constructing text corpus ..."
+python3 ./pipeline/construct_corpus.py
+# Corpus concluded
+echo "The corpus have been successfully generated."
 
-# # Generate collection statistic
-# echo "Generating statistic for the collection ..."
-# python3 ./pipeline/view_collection_stat.py
-# Statistic generation concluded
-# echo "The statistics have been successfully generated."
+# Generate collection statistic
+echo "Generating statistic for the collection ..."
+python3 ./pipeline/view_collection_stat.py
+Statistic generation concluded
+echo "The statistics have been successfully generated."
