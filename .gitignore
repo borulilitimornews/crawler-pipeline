@@ -1,6 +1,5 @@
 nutch/
 solr/
-corpus/
 pipeline/data
 pipeline/tetun_lid
 Pipfile.lock
@@ -9,5 +8,3 @@ Pipfile.lock
 logs/
 pipeline/src/__pycache__/
 pipeline/common_utils/__pycache__/
-evaluation/__pycache__/
-evaluation/data
