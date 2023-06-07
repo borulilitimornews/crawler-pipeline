@@ -2,8 +2,7 @@ import re
 from pathlib import Path
 from typing import List
 from googlesearch import search
-from common_utils.utils import Utils
-from common_utils.docs_process import extract_domain
+from common_utils.utils import Utils, extract_domain
 
 
 class GetSeedUrl:
@@ -12,7 +11,7 @@ class GetSeedUrl:
     (1) Its domain is not on the excluded domain list.
     (2) It is a new seed url.
     (3) It is a new domain.
-    
+
     After satifying the 1 and 2 conditions:
         * If the url's length is lower than 300, add it to the seed url file.
         * If the url contains a new domain, add it to the domain file.

@@ -1,5 +1,5 @@
 from common_utils import config
-from src.process_corpus import GetCorpus
+from src.get_corpus import GetCorpus
 
 
 class ConstructCorpus:
@@ -8,6 +8,9 @@ class ConstructCorpus:
     def __init__(self) -> None:
         self.get_corpus = GetCorpus(
             config.SOLR_API_URL,
+            config.SOLR_START,
+            config.SOLR_ROWS,
+            config.MAX_CONSECUTIVE_NEW_LINE,
             config.LANGUAGE,
             config.LANG_PROBA_THRESHOLD,
             config.LID_MODEL_FILE_PATH,

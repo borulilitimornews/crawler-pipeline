@@ -9,12 +9,18 @@ NUTCH_SEED_URL_FILE_PATH = Path("./nutch/urls/seed.txt")
 DOMAIN_FILE_PATH = Path("pipeline/data/domains.txt")
 LID_MODEL_FILE_PATH = Path("pipeline/tetun_lid/model_9977.pkl")
 FINAL_CORPUS_FILE_PATH = Path("pipeline/data/final_corpus.txt")
-STATS_INL_OUT_LINKS_FILE_PATH = Path("pipeline/data/stats_inlinks_outlinks.txt")
+STATS_INL_OUT_LINKS_FILE_PATH = Path(
+    "pipeline/data/stats_inlinks_outlinks.txt")
 URL_INL_OUT_LINKS_FILE_PATH = Path("pipeline/data/url_inlinks_outlinks.txt")
 LOG_FILE = Path("pipeline/logs/execution.log")
+EVAL_SAMPLE_DIRECTORY_PATH = Path("pipeline/data/evaluation_sample/")
 
 # Solr
 SOLR_API_URL = "http://localhost:8983/solr/nutch/select"
+SOLR_START = 0
+SOLR_ROWS = 1
+MAX_CONSECUTIVE_NEW_LINE = 2
+
 
 # Language, language model, and corpus.
 LANGUAGE = "tet"
@@ -42,3 +48,7 @@ DOMAINS_TO_EXCLUDE = [
     "facebook.com",
     "linkedin.com",
 ]
+
+# Total of samples for doc. quality evaluation and total text pages
+TOTAL_SAMPLES = 6
+TOTAL_TEXT_PAGES = 50

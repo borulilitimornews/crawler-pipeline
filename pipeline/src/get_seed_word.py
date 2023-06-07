@@ -34,7 +34,8 @@ class GetSeedWords:
         self.num_seed_words_sample = num_seed_words_sample
         self.seed_words_file = Utils(seed_words_file_path)
         self.tetun_lang = tetun_lang
-        self.tetun_lid = TetunLid(self.tetun_lang, self.lang_proba_threshold, lid_model_file_path)
+        self.tetun_lid = TetunLid(
+            self.tetun_lang, self.lang_proba_threshold, lid_model_file_path)
 
     def get_sample_corpus(self) -> List[str]:
         """
@@ -68,12 +69,13 @@ class GetSeedWords:
         return a dictionary contains words and their distribution probability.
         """
 
-        # Apply Tetun LID model to the tokenized words
+        # Apply the Tetun LID model to the tokenized words
         words = self.tetun_lid.get_tetun_text(self.tokenize_sample_corpus())
 
         freq_dict = Counter(words)
         total_words = len(words)
-        probs_dist = {word: count / total_words for word, count in freq_dict.items()}
+        probs_dist = {word: count / total_words for word,
+                      count in freq_dict.items()}
 
         return probs_dist
 

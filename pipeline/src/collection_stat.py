@@ -1,8 +1,7 @@
 import os
 import requests
 import logging
-from common_utils.docs_process import extract_domain
-from common_utils.utils import Utils
+from common_utils.utils import Utils, extract_domain
 from common_utils import config
 from pathlib import Path
 from bs4 import BeautifulSoup
@@ -16,7 +15,7 @@ warnings.filterwarnings("ignore")
 
 class CollectionStatistic:
     """ 
-    This class generates the collection's statistics that consist of:
+    This class generates the collection's statistics comprise:
     (1) Total inlinks and outlinks per document (url).
     (2) Total documents.  
     (3) Total documents per domain.
