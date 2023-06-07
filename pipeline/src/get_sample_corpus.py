@@ -8,11 +8,11 @@ class GetSampleCorpus:
     """ Load and generate ramdom samples for the corpus quality evaluation. """
 
     def __init__(
-            self,
-            corpus_file_path: Path,
-            corpus_sample_dir_path: Path,
-            total_sample: int,
-            total_text_pages: int
+        self,
+        corpus_file_path: Path,
+        corpus_sample_dir_path: Path,
+        total_sample: int,
+        total_text_pages: int
     ) -> None:
         self.load_corpus = Utils(corpus_file_path)
         self.corpus_sample_dir_path = corpus_sample_dir_path

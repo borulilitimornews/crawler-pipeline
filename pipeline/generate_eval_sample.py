@@ -6,8 +6,12 @@ class GenerateEvalSample:
     """ Main class for generating sample data. """
 
     def __init__(self) -> None:
-        self.generate_eval_sample = GetSampleCorpus(config.FINAL_CORPUS_FILE_PATH, config.EVAL_SAMPLE_DIRECTORY_PATH,
-                                                    config.TOTAL_SAMPLES, config.TOTAL_TEXT_PAGES)
+        self.generate_eval_sample = GetSampleCorpus(
+            config.FINAL_CORPUS_FILE_PATH,
+            config.EVAL_SAMPLE_DIRECTORY_PATH,
+            config.TOTAL_SAMPLES,
+            config.TOTAL_TEXT_PAGES
+        )
 
     def run(self):
         try:

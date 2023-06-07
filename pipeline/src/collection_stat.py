@@ -23,7 +23,7 @@ class CollectionStatistic:
     """
 
     def __init__(
-            self,
+        self,
         final_corpus_file_path: Path,
         url_in_out_links_file_path: Path,
         stats_in_out_links_file_path: Path
@@ -58,8 +58,7 @@ class CollectionStatistic:
                 else:
                     domain_counts[domain] = 1
 
-                # Extensions
-                # Extract the last part of the URL
+                # Extensions - extract the last part of the URL
                 filename = os.path.basename(url)
                 extension = os.path.splitext(
                     filename)[1].lower() if '.' in filename else ''
