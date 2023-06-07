@@ -5,7 +5,7 @@ from common_utils.utils import Utils
 
 
 class GetSampleCorpus:
-    """ Load and generate ramdom samples for the corpus quality evaluation. """
+    """ Loads and generates ramdom samples for the corpus quality evaluation. """
 
     def __init__(
         self,

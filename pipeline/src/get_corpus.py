@@ -11,10 +11,10 @@ from common_utils import config
 class GetCorpus:
     """
     This class:
-    (1) Retrieves and load each document from the Solr.
-    (2) Applies the LID model for each document title and collect only those that satisfy the predefined threshold.
-    (3) Saves each title with the respective URL to the final corpus file and apply LID model to its content.
-    (3) Saves each line on the content that satisfy the predefined threshold to the final corpus file.
+    (1) Retrieves and load each document from Solr.
+    (2) Applies the LID model for each document title and collects only those that satisfy the predefined threshold.
+    (3) Saves each title with the respective URL to the final corpus file and applies the LID model to its content.
+    (3) Saves each line on the content that satisfies the predefined threshold to the final corpus file.
     """
 
     def __init__(

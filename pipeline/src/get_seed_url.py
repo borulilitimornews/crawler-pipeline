@@ -8,7 +8,7 @@ from common_utils.utils import Utils, extract_domain
 class GetSeedUrl:
     """
     The GetURL class checks each url if:
-    (1) Its domain is not on the excluded domain list.
+    (1) The domain is not on the excluded domain list.
     (2) It is a new seed url.
     (3) It is a new domain.
 

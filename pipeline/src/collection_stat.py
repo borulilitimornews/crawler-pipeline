@@ -15,7 +15,7 @@ warnings.filterwarnings("ignore")
 
 class CollectionStatistic:
     """ 
-    This class generates the collection's statistics comprise:
+    This class generates the corpus summary which comprise:
     (1) Total inlinks and outlinks per document (url).
     (2) Total documents.  
     (3) Total documents per domain.

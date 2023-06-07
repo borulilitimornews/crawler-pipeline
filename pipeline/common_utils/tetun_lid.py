@@ -5,9 +5,8 @@ from typing import List
 
 class TetunLid:
     """
-    Tetun LID class loads the LID model file, applies it to the given text, 
-    and then extracts only texts that are predicted to Tetun with a certain 
-    probability that meets the predefined threshold.
+    Tetun LID class loads the LID model file, applies it to the input text, 
+    and then filters out texts that do not meet the predefined threshold.
     """
 
     def __init__(

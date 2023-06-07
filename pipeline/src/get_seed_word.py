@@ -13,8 +13,8 @@ class GetSeedWords:
     (1) Gets a random text sample as per the predefined ratio.
     (2) Tokenizes the text sample into tokens (words).
     (3) Applies the LID model to get tokens with the probability >= threshold.
-    (4) Counts the word frequency and calculate its probability of distribution.
-    (5) Samples three unique words from (4) and save them to the seed file.
+    (4) Counts the word frequency and calculates its probability of distribution.
+    (5) Samples three unique words from (4) and saves them to the seed file.
     """
 
     def __init__(

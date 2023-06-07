@@ -1,6 +1,6 @@
 from pathlib import Path
 
-""" This module contains configuration of the paths, urls, patterns, etc. """
+""" This module contains main configuration of the pipeline. """
 
 # File paths
 MAIN_CORPUS_FILE_PATH = Path("pipeline/data/timornews_corpus.txt")

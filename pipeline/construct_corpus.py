@@ -3,7 +3,7 @@ from src.get_corpus import GetCorpus
 
 
 class ConstructCorpus:
-    """ This class generates texts for the Tetun corpus and save them in a file. """
+    """ This class generates text pages for the Tetun corpus and save them in a file. """
 
     def __init__(self) -> None:
         self.get_corpus = GetCorpus(
