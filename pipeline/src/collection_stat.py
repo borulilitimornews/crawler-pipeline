@@ -1,14 +1,14 @@
 import os
 import requests
+import numpy as np
 import logging
-from common_utils.utils import Utils, extract_domain
-from common_utils import config
+import warnings
 from pathlib import Path
 from bs4 import BeautifulSoup
 from bs4.builder import ParserRejectedMarkup
 from requests import exceptions
-import numpy as np
-import warnings
+from common_utils.utils import Utils, extract_domain
+from common_utils import config
 
 warnings.filterwarnings("ignore")
 
