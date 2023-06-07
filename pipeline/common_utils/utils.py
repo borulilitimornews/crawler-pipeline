@@ -39,7 +39,7 @@ class Utils:
         return contents
 
     def load_sample_corpus(self) -> List[str]:
-        """ Load and read the final corpus. """
+        """ Load and read the final corpus for sample text pages. """
         try:
             with self.file_path.open('r', encoding='utf-8') as load_sample_corpus:
                 contents = load_sample_corpus.read().split('\n\n')
