@@ -15,7 +15,7 @@ echo "Crawling the World Wide Web ..."
 cd nutch
 ./bin/crawl -i -s urls/ --hostdbupdate --hostdbgenerate crawl/ 15
 cd ..
-Crawling concluded
+# Crawling concluded
 echo "The crawling have been successfully concluded."
 
 # Construct text corpus
