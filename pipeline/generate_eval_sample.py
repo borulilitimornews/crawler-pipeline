@@ -3,7 +3,7 @@ from src.get_sample_corpus import GetSampleCorpus
 
 
 class GenerateEvalSample:
-    """ Main class for generating sample data. """
+    """ Class for generating sample data. """
 
     def __init__(self) -> None:
         self.generate_eval_sample = GetSampleCorpus(

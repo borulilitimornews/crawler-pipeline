@@ -3,7 +3,7 @@ from common_utils import config
 
 
 class ViewCollectionStatistic:
-    """ This class shows some statistics extracted from the collection. """
+    """ This class shows the corpus summarization. """
 
     def __init__(self) -> None:
         self.collection_stat = CollectionStatistic(
