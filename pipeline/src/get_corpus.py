@@ -68,7 +68,7 @@ class GetCorpus:
         }
 
         list_of_titles = []
-        start = 0
+        start = self.solr_start[0]
         while start < self.get_total_documents():
             params["start"] = start
             response = requests.get(self.solr_api_url, params=params)
