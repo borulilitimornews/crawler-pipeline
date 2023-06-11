@@ -107,8 +107,8 @@ class GetCorpus:
                             logging.warning(f"Empty content -> {get_title}.")
                             continue
 
-                        self.final_corpus.save_corpus(get_title)
-                        self.final_corpus.save_corpus(get_url)
+                        self.final_corpus.save_corpus(get_title.strip())
+                        self.final_corpus.save_corpus(get_url.strip())
 
                         consecutive_newlines = 0
                         seen_sentences = set()
