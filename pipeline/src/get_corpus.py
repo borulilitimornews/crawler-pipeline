@@ -96,11 +96,11 @@ class GetCorpus:
                         # Ensure that only Tetun wikipedia data is processed.
                         if "wikipedia" in get_url and not "tet.wikipedia.org" in get_url:
                             logging.warning(
-                                f"Not Tetun Wikipedia -> {get_title}.")
+                                f"Not Tetun Wikipedia -> {get_url}.")
                             continue
                         # Excluding facebook since its content was not extracted by Nutch.
                         if "facebook" in get_url:
-                            logging.warning(f"Facebook page -> {get_title}.")
+                            logging.warning(f"Facebook page -> {get_url}.")
                             continue
 
                         if get_content is None:  # Make sure that the content is not empty.
@@ -136,7 +136,7 @@ class GetCorpus:
                             f"The content was sucessfully generated for the title -> {get_title}")
                     else:
                         logging.warning(
-                            f"The URL contains 'feed' or 'tag' -> {get_title}")
+                            f"The URL contains 'feed' or 'tag' -> {get_url}")
                 else:
                     logging.warning(
                         f"The title is not in Tetun -> {get_title}")
