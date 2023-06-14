@@ -3,7 +3,7 @@
 
 ## Overview
 
-Tetun crawler pipeline is a data collection pipeline designed for low-resource languages and built on top of Nutch and incorporating language-specific components such as a tokenizer and a language identification model.
+Tetun crawler is a data collection pipeline designed to optimize the process of constructing comprehensive textual corpora from the web. The system is built on top of Nutch and incorporates language-specific components such as a tokenizer and a language identification model.
 
 
 ## Requirements
