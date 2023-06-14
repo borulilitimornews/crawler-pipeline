@@ -138,7 +138,7 @@ Running this command will execute the pipeline and automatically start the crawl
 ## Citation
 If you use this repository or any of its contents for your research, academic work, or publication, we kindly request that you cite it as follows:
 
-`[Will be provided later.]`
+`[Will be provided here later.]`
 
 
 ## License
