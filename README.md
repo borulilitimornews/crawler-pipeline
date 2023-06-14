@@ -120,3 +120,17 @@ To configure the Language Identification (LID) model in the pipeline, follow the
 - [ ] Locate the `get_tetun_text`function within the file.
 - [ ] Adjust the function according to the nature of your LID model.
 - [ ] **Ensure that the function receives a list of strings as input.** This is important for optimizing the corpus construction process and making it faster. Make the necessary modifications to the `get_tetun_text` function based on your LID model's requirements.
+
+
+## Execute the pipeline
+
+To execute the pipeline and initiate the crawling process, follow these steps:
+
+- [ ] On the `crawler-home` directory, run the bash file named `crawler.sh`using the following command:
+
+```
+$ bash ./bin/crawler.sh
+
+```
+
+Running this command will execute the pipeline and automatically start the crawling process. Please ensure that you are in the correct directory before executing the command, as the path `./bin/crawler.sh` should be relative to the current working directory.
