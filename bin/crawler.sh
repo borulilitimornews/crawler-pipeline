@@ -27,5 +27,5 @@ echo "The corpus have been successfully generated."
 # Generate collection statistic
 echo "Generating statistic for the collection ..."
 python3 ./pipeline/view_collection_stat.py
-#Statistic generation concluded
+# Statistic generation concluded
 echo "The statistics have been successfully generated."
