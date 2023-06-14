@@ -143,7 +143,7 @@ If you use this repository or any of its contents for your research, academic wo
 
 ## License
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]([https://opensource.org/licenses/MIT](https://github.com/borulilitimornews/crawler-pipeline/blob/tetun-crawler-v1-0-0/LICENSE.txt))
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/borulilitimornews/crawler-pipeline/blob/tetun-crawler-v1-0-0/LICENSE.txt)
 
 
 ## Contact Information
