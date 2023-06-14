@@ -50,7 +50,7 @@ $ sudo apt install git
 $ git clone https://github.com/borulilitimornews/crawler-pipeline.git
 ```
 
-## Setting up Apache Nutch and Solr
+## Apache Nutch and Solr Setup
 
 To set up Apache Nutch and Solr, follow these steps:
 
