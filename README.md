@@ -93,7 +93,7 @@ Replace **{PATH_TO_THE_LID_FILE}** and **{PATH_TO_THE_INITIAL_CORPUS_FILE}** wit
 
 `[Optional]`
 
-If you want to use the module to generate a data sample for evaluation purposes, you can create an additional folder inside the **data directory** and name it `evaluation_sampl`. This folder will be used to store the generated data sample.
+If you want to use the module to generate a data sample for evaluation purposes, you can create an additional folder inside the **data directory** and name it `evaluation_sample`. This folder will be used to store the generated data sample.
 
 
 ### Configuration module
