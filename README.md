@@ -20,7 +20,7 @@ Tetun crawler pipeline is a data collection pipeline designed for low-resource l
 
 ## Getting started
 
-**Note:** The following commands are intended for the Ubuntu Linux environment.
+**Note:** The following commands are intended for the Linux environment.
 
 - [ ] Create a project folder named `crawler-home`.
 
