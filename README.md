@@ -18,7 +18,7 @@ Tetun crawler is a data collection pipeline designed to optimize the process of 
 - [ ] A language identification model.
 
 
-## Getting started
+## Getting Started
 
 **Note:** The following commands are intended for the Linux environment.
 
@@ -63,7 +63,7 @@ To set up Apache Nutch and Solr, follow these steps:
 - [ ] **Verify the Nutch and Solr configuration:** after completing the configuration steps, verify that both Nutch and Solr are working correctly. You can do this by following the verification steps provided in the tutorial.
 
 
-## Setting up the pipeline
+## Pipeline Setup
 
 To set up the pipeline, you will need to organize the following main folders in the specified structure:
 
@@ -102,7 +102,7 @@ Replace **{PATH_TO_THE_LID_FILE}** and **{PATH_TO_THE_INITIAL_CORPUS_FILE}** wit
 If you want to use the module to generate a data sample for evaluation purposes, you can create an additional folder inside the **data directory** and name it `evaluation_sample`. This folder will be used to store the generated data sample.
 
 
-### Configuration module
+### Configuration Module
 
 In the configuration module, you will find the general pipeline configuration located in **pipeline/common_utils/config.py**. This configuration module consists of the following components:
 
@@ -112,7 +112,7 @@ In the configuration module, you will find the general pipeline configuration lo
 - [ ] **Language, LID model, and corpus:** The configuration in this group and the following sections can be adjusted according to your specific requirements. This includes settings related to language processing, the Language Identification (LID) model, and the corpus used by the pipeline.
 
 
-### Configure the LID model
+### LID Model Configuration
 
 To configure the Language Identification (LID) model in the pipeline, follow these steps:
 
@@ -122,7 +122,7 @@ To configure the Language Identification (LID) model in the pipeline, follow the
 - [ ] **Ensure that the function receives a list of strings as input.** This is important for optimizing the corpus construction process and making it faster. Make the necessary modifications to the `get_tetun_text` function based on your LID model's requirements.
 
 
-## Execute the pipeline
+## Pipeline Execution
 
 To execute the pipeline and initiate the crawling process, follow these steps:
 
@@ -133,3 +133,18 @@ $ bash ./bin/crawler.sh
 ```
 
 Running this command will execute the pipeline and automatically start the crawling process. Please ensure that you are in the correct directory before executing the command, as the path `./bin/crawler.sh` should be relative to the current working directory.
+
+
+## Citation
+If you use this repository or any of its contents for your research, academic work, or publication, we kindly request that you cite it as follows:
+
+`[Will be provided later.]`
+
+
+## License
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+## Contact Information
+If you have any questions, feedback, or concerns regarding the corpus, please feel free to contact gabriel.dejesus[at]timornews.tl.
