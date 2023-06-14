@@ -55,7 +55,7 @@ class GetSeedWords:
         """ Tokenizes the sample corpus into tokens and return them in a list of strings. """
 
         doc = self.get_sample_corpus()
-        print(f"\nTotal corpus sample: {len(doc)} sentences.")
+        print(f"\nTotal corpus sample: {len(doc)} documents.")
 
         tokenizer = TetunWordTokenizer()
         doc_lower = str(doc).lower()

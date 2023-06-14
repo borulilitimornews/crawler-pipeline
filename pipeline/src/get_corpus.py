@@ -32,6 +32,7 @@ class GetCorpus:
         self.solr_start = solr_start,
         self.solr_rows = solr_rows,
         self.max_consecutive_newlines = max_consecutive_newlines,
+        self.tetun_lang = tetun_lang
         self.tetun_lid = TetunLid(
             tetun_lang, lang_proba_threshold, lid_model_file_path)
         self.final_corpus = Utils(final_corpus_file_path)
@@ -68,7 +69,7 @@ class GetCorpus:
         }
 
         list_of_titles = []
-        start = 0
+        start = self.solr_start[0]
         while start < self.get_total_documents():
             params["start"] = start
             response = requests.get(self.solr_api_url, params=params)
@@ -94,21 +95,21 @@ class GetCorpus:
                     # Exclude the Urls contain '/feed' and '/tag'.
                     if not '/feed' in get_url and not '/tag' in get_url:
                         # Ensure that only Tetun wikipedia data is processed.
-                        if "wikipedia" in get_url and not "tet.wikipedia.org" in get_url:
+                        if "wikipedia" in get_url and not self.tetun_lang in get_url:
                             logging.warning(
-                                f"Not Tetun Wikipedia -> {get_title}.")
+                                f"Not Tetun Wikipedia -> {get_url}.")
                             continue
                         # Excluding facebook since its content was not extracted by Nutch.
                         if "facebook" in get_url:
-                            logging.warning(f"Facebook page -> {get_title}.")
+                            logging.warning(f"Facebook page -> {get_url}.")
                             continue
 
                         if get_content is None:  # Make sure that the content is not empty.
                             logging.warning(f"Empty content -> {get_title}.")
                             continue
 
-                        self.final_corpus.save_corpus(get_title)
-                        self.final_corpus.save_corpus(get_url)
+                        self.final_corpus.save_corpus(get_title.strip())
+                        self.final_corpus.save_corpus(get_url.strip())
 
                         consecutive_newlines = 0
                         seen_sentences = set()
@@ -136,7 +137,7 @@ class GetCorpus:
                             f"The content was sucessfully generated for the title -> {get_title}")
                     else:
                         logging.warning(
-                            f"The URL contains 'feed' or 'tag' -> {get_title}")
+                            f"The URL contains 'feed' or 'tag' -> {get_url}")
                 else:
                     logging.warning(
                         f"The title is not in Tetun -> {get_title}")

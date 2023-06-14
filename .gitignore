@@ -1,10 +1,10 @@
 nutch/
 solr/
 pipeline/data
-pipeline/tetun_lid
+pipeline/lid
 Pipfile.lock
 .DS_Store
 .vscode
-logs/
+pipeline/log/
 pipeline/src/__pycache__/
 pipeline/common_utils/__pycache__/

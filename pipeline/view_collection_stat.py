@@ -9,7 +9,7 @@ class ViewCollectionStatistic:
         self.collection_stat = CollectionStatistic(
             config.FINAL_CORPUS_FILE_PATH,
             config.URL_INL_OUT_LINKS_FILE_PATH,
-            config.STATS_INL_OUT_LINKS_FILE_PATH
+            config.STATS_IN_OUT_LINKS_FILE_PATH
         )
 
     def run(self) -> None:
