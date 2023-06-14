@@ -8,11 +8,11 @@ Tetun crawler is a data collection pipeline designed to optimize the process of 
 
 ## Requirements
 
-### Technical
+### Technical requirements
 - [ ] Apache Nutch.
 - [ ] Apache Solr.
 
-### Language-specific
+### Language specific requirements
 - [ ] An initial text corpus containing the target language.
 - [ ] A tokenizer.
 - [ ] A language identification model.
