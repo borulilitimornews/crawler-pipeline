@@ -37,6 +37,12 @@ $ pip install pipenv
 $ pipenv shell
 ```
 
+- [ ]  Install the dependencies specified in the Pipfile.
+
+```
+pipenv install --dev
+```
+
 - [ ] Install `git` and clone the source code of the pipeline:
 
 ```
