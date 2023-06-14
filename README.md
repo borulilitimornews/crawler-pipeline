@@ -41,10 +41,8 @@ $ pipenv shell
 
 ```
 $ sudo apt install git
-$ git clone https://gitlab.inesctec.pt/humanise/_imis/tetun-ir/tetun-crawler-pipeline.git
-
+$ git clone https://github.com/borulilitimornews/crawler-pipeline.git
 ```
-
 
 ## Setting up Apache Nutch and Solr
 
