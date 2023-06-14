@@ -35,7 +35,6 @@ $ cd crawler-home
 $ sudo apt install python3-pip
 $ pip install pipenv
 $ pipenv shell
-
 ```
 
 - [ ] Install `git` and clone the source code of the pipeline:
@@ -43,7 +42,6 @@ $ pipenv shell
 ```
 $ sudo apt install git
 $ git clone https://gitlab.inesctec.pt/humanise/_imis/tetun-ir/tetun-crawler-pipeline.git
-
 ```
 
 
@@ -77,21 +75,17 @@ Create the LID, data, and log folders within the pipeline folder.
 ```
 $ cd pipeline
 $ mkdir data lid log
-
 ```
-
 Copy the LID model, name it `lid_model.pkl`, and locate it in the **lid** folder. 
 
 ```
 $ cp {PATH_TO_THE_LID_FILE} ./lid/
-
 ```
 
 Copy the initial corpus, name it `initial_corpus.txt`, and locate it in the **data** folder.
 
 ```
 $ cp {PATH_TO_THE_INITIAL_CORPUS_FILE} ./data/
-
 ```
 
 Replace **{PATH_TO_THE_LID_FILE}** and **{PATH_TO_THE_INITIAL_CORPUS_FILE}** with the actual path to the LID model and the initial corpus files you want to copy. 
@@ -130,7 +124,6 @@ To execute the pipeline and initiate the crawling process, follow these steps:
 
 ```
 $ bash ./bin/crawler.sh
-
 ```
 
 Running this command will execute the pipeline and automatically start the crawling process. Please ensure that you are in the correct directory before executing the command, as the path `./bin/crawler.sh` should be relative to the current working directory.
