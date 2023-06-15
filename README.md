@@ -148,4 +148,4 @@ If you use this repository or any of its contents for your research, academic wo
 
 
 ## Contact Information
-If you have any questions, feedback, or concerns regarding the corpus, please feel free to contact gabriel.dejesus[at]timornews.tl.
+If you have any questions or feedback, please feel free to contact gabriel.dejesus[at]timornews.tl.
