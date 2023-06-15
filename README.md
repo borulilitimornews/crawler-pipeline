@@ -22,7 +22,7 @@ Tetun crawler is a data collection pipeline designed to optimize the process of 
 
 **Note:** The following commands are intended for the Linux environment.
 
-- [ ] Create a project folder named `crawler-home`.
+- [ ] Create a project folder and name it `crawler-home`.
 
 ```
 $ mkdir crawler-home
@@ -37,18 +37,19 @@ $ pip install pipenv
 $ pipenv shell
 ```
 
-- [ ]  Install the dependencies specified in the Pipfile.
-
-```
-pipenv install --dev
-```
-
 - [ ] Install `git` and clone the source code of the pipeline:
 
 ```
 $ sudo apt install git
 $ git clone https://github.com/borulilitimornews/crawler-pipeline.git
 ```
+
+- [ ]  Install the dependencies specified in the Pipfile.
+
+```
+pipenv install --dev
+```
+
 
 ## Apache Nutch and Solr Setup
 
