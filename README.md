@@ -20,27 +20,11 @@ Tetun crawler is a data collection pipeline designed to optimize the process of 
 
 ## Getting Started
 
-**Note:** The following commands are intended for the Linux environment.
-
 - [ ] Create a project folder and name it `crawler-home`.
+- [ ] Navigate into the project folder, create a virtual environment and activate it.
+- [ ] Clone the source code of the pipeline using git:
 
 ```
-$ mkdir crawler-home
-```
-
-- [ ] Navigate into the project folder and install `pip`, create a virtual environment (here we use `pipenv`), and activate it:
-
-```
-$ cd crawler-home
-$ sudo apt install python3-pip
-$ pip install pipenv
-$ pipenv shell
-```
-
-- [ ] Install `git` and clone the source code of the pipeline:
-
-```
-$ sudo apt install git
 $ git clone https://github.com/borulilitimornews/crawler-pipeline.git
 ```
 
@@ -76,27 +60,9 @@ To set up the pipeline, you will need to organize the following main folders in 
 
 ### Create folders and copy the LID model and initial corpus
 
-Create the LID, data, and log folders within the pipeline folder. 
-
-```
-$ cd pipeline
-$ mkdir data lid log
-```
-
-Copy the LID model, name it `lid_model.pkl`, and locate it in the **lid** folder. 
-
-```
-$ cp {PATH_TO_THE_LID_FILE} ./lid/
-```
-
-Copy the initial corpus, name it `initial_corpus.txt`, and locate it in the **data** folder.
-
-```
-$ cp {PATH_TO_THE_INITIAL_CORPUS_FILE} ./data/
-```
-
-Replace **{PATH_TO_THE_LID_FILE}** and **{PATH_TO_THE_INITIAL_CORPUS_FILE}** with the actual path to the LID model and the initial corpus files you want to copy. 
-
+- [ ] Create the LID, data, and log folders within the pipeline folder. 
+- [ ] Copy the LID model, name it `lid_model.pkl`, and locate it in the **lid** folder. 
+- [ ] Copy the initial corpus, name it `initial_corpus.txt`, and locate it in the **data** folder.
 
 `[Optional]`
 
