@@ -36,7 +36,6 @@ class MainSeeder:
         try:
             self.get_url.generate_seed_urls()
             print(f"\nSeed URLs have been generated successfully.\n\n")
-
         except Exception as e:
             print(f"\nError while generating the seed URLs: {e}\n")
 
