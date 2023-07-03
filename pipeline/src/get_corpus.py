@@ -2,10 +2,8 @@ import requests
 import json
 import logging
 from pathlib import Path
-from typing import List
 from common_utils.tetun_lid import TetunLid
 from common_utils.utils import Utils
-from common_utils import config
 
 
 class GetCorpus:
@@ -26,7 +24,7 @@ class GetCorpus:
         tetun_lang: str,
         lang_proba_threshold: float,
         lid_model_file_path: Path,
-        final_corpus_file_path: Path,
+        final_corpus_file_path: Path
     ) -> None:
         self.solr_api_url = solr_api_url
         self.solr_start = solr_start,
@@ -37,7 +35,6 @@ class GetCorpus:
             tetun_lang, lang_proba_threshold, lid_model_file_path)
         self.final_corpus = Utils(final_corpus_file_path)
         logging.basicConfig(
-            filename=config.LOG_FILE,
             level=logging.DEBUG,
             format="%(asctime)s %(levelname)s: %(message)s"
         )

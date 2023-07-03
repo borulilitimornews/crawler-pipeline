@@ -1,29 +1,35 @@
-from common_utils import config
-from src.get_seed_word import GetSeedWords
+import hydra
 from src.get_seed_url import GetSeedUrl
+from src.get_seed_word import GetSeedWords
+from hydra.core.config_store import ConfigStore
+from common_utils.config import PipelineConfig
+from common_utils.utils import get_file_path
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 
 class MainSeeder:
     """ This class generates seed words and seed URLs, including domains from the seed URLs. """
 
-    def __init__(self) -> None:
-        get_seed_word = GetSeedWords(
-            config.MAIN_CORPUS_FILE_PATH,
-            config.LANGUAGE,
-            config.CORPUS_SAMPLE_RATIO,
-            config.LID_MODEL_FILE_PATH,
-            config.LANG_PROBA_THRESHOLD,
-            config.NUM_SEED_WORD_SAMPLE,
-            config.SEED_WORDS_FILE_PATH,
+    def __init__(self, cfg) -> None:
+        self.get_seed_word = GetSeedWords(
+            get_file_path(cfg.paths.data, cfg.files.main_corpus),
+            cfg.params.language,
+            cfg.params.corpus_sample_ratio,
+            get_file_path(cfg.paths.lid, cfg.files.lid_model),
+            cfg.params.lang_proba_threshold,
+            cfg.params.num_seed_word_sample,
+            get_file_path(cfg.paths.data, cfg.files.seed_words)
         )
         self.get_url = GetSeedUrl(
-            config.EXTENSIONS_TO_EXCLUDE,
-            config.DOMAINS_TO_EXCLUDE,
-            get_seed_word.generate_seed_words(),
-            config.GOOGLE_SEARCH_NUM_RESULT,
-            config.MAX_SEED_URL_LENGTH,
-            config.NUTCH_SEED_URL_FILE_PATH,
-            config.DOMAIN_FILE_PATH,
+            cfg.params.extensions_to_exclude,
+            cfg.params.domains_to_exclude,
+            self.get_seed_word.generate_seed_words(),
+            cfg.params.google_search_num_result,
+            cfg.params.max_seed_url_length,
+            get_file_path(cfg.paths.nutch, cfg.files.nutch_seed_url),
+            get_file_path(cfg.paths.data, cfg.files.domain)
         )
 
     def run(self) -> None:
@@ -35,6 +41,12 @@ class MainSeeder:
             print(f"\nError while generating the seed URLs: {e}\n")
 
 
+cs = ConfigStore.instance()
+cs.store(name="pipeline_config", node=PipelineConfig)
 if __name__ == "__main__":
-    seeder = MainSeeder()
-    seeder.run()
+    @hydra.main(config_path="conf", config_name="config")
+    def main(cfg: PipelineConfig):
+        seeder = MainSeeder(cfg)
+        seeder.run()
+
+    main()

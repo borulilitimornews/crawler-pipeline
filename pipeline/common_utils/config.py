@@ -1,54 +1,49 @@
-from pathlib import Path
+from dataclasses import dataclass
+from typing import List
 
-""" This module contains main configuration of the pipeline. """
-
-# File paths
-MAIN_CORPUS_FILE_PATH = Path("pipeline/data/initial_corpus.txt")
-SEED_WORDS_FILE_PATH = Path("pipeline/data/seed_words.txt")
-NUTCH_SEED_URL_FILE_PATH = Path("./nutch/urls/seed.txt")
-DOMAIN_FILE_PATH = Path("pipeline/data/domains.txt")
-LID_MODEL_FILE_PATH = Path("pipeline/lid/lid_model.pkl")
-FINAL_CORPUS_FILE_PATH = Path("pipeline/data/final_corpus.txt")
-STATS_IN_OUT_LINKS_FILE_PATH = Path(
-    "pipeline/data/stats_inlinks_outlinks.txt")
-URL_INL_OUT_LINKS_FILE_PATH = Path("pipeline/data/url_inlinks_outlinks.txt")
-LOG_FILE = Path("pipeline/log/execution.log")
-EVAL_SAMPLE_DIRECTORY_PATH = Path("pipeline/data/evaluation_sample/")
-
-# Solr
-SOLR_API_URL = "http://localhost:8983/solr/nutch/select"
-SOLR_START = 0
-SOLR_ROWS = 1
+""" This module contains soft configuration of the pipeline. """
 
 
-# Language, LID model and corpus.
-LANGUAGE = "tet"
-LANG_PROBA_THRESHOLD = 0.95
-CORPUS_SAMPLE_RATIO = 0.1
-NUM_SEED_WORD_SAMPLE = 3
-GOOGLE_SEARCH_NUM_RESULT = 10
-MAX_SEED_URL_LENGTH = 300
-MAX_CONSECUTIVE_NEW_LINE = 2
+@dataclass
+class Paths:
+    data: str
+    nutch: str
+    lid: str
+    eval_sample: str
 
-# Patterns to exclude from the URLs retrieved for the seed URLs.
-EXTENSIONS_TO_EXCLUDE = [
-    "\.(rtf)$",
-    "\.pptx?$",
-    "\.docx?$",
-    "\.(txt)$",
-    "\.(pdf)$",
-    "\.mp3",
-    "\.mp4",
-    "\.avi",
-]
 
-DOMAINS_TO_EXCLUDE = [
-    "youtube.com",
-    "instagram.com",
-    "facebook.com",
-    "linkedin.com",
-]
+@dataclass
+class Files:
+    main_corpus: str
+    seed_words: str
+    nutch_seed_url: str
+    domain: str
+    lid_model: str
+    final_corpus: str
+    stats_in_out_links: str
+    url_in_out_links: str
 
-# Total of samples for doc. quality evaluation and total text pages
-TOTAL_SAMPLES = 6
-TOTAL_TEXT_PAGES = 50
+
+@dataclass
+class Params:
+    solr_api_url: str
+    solr_start: int
+    solr_rows: int
+    language: str
+    lang_proba_threshold: float
+    corpus_sample_ratio: float
+    num_seed_word_sample: int
+    google_search_num_result: int
+    max_seed_url_length: int
+    max_consecutive_newline: int
+    total_samples: int
+    total_text_pages: int
+    extensions_to_exclude: List[str]
+    domains_to_exclude: List[str]
+
+
+@dataclass
+class PipelineConfig:
+    paths: Paths
+    files: Files
+    params: Params

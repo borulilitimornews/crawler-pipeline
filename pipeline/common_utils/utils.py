@@ -1,4 +1,4 @@
-from pathlib import Path
+import os
 from typing import List
 import tldextract
 
@@ -6,14 +6,14 @@ import tldextract
 class Utils:
     """ This class contains functions to load and write a text corpus from/to a file. """
 
-    def __init__(self, file_path: Path) -> None:
+    def __init__(self, file_path: str) -> None:
         self.file_path = file_path
 
     def load_corpus(self) -> List[str]:
         """ Loads corpus from a file and returns its contents in a list. """
 
         try:
-            with self.file_path.open("r", encoding="utf-8") as load_file:
+            with open(self.file_path, "r", encoding="utf-8") as load_file:
                 contents = [line.strip() for line in load_file]
 
         except FileNotFoundError:
@@ -29,7 +29,7 @@ class Utils:
     def load_final_corpus(self):
         """ Load and read the final corpus. """
         try:
-            with self.file_path.open("r", encoding="utf-8") as load_file:
+            with open(self.file_path, "r", encoding="utf-8") as load_file:
                 contents = load_file.read()
 
         except FileNotFoundError:
@@ -41,7 +41,7 @@ class Utils:
     def load_sample_corpus(self) -> List[str]:
         """ Load and read the final corpus for sample text pages. """
         try:
-            with self.file_path.open('r', encoding='utf-8') as load_sample_corpus:
+            with open(self.file_path, "r", encoding='utf-8') as load_sample_corpus:
                 contents = load_sample_corpus.read().split('\n\n')
 
         except FileNotFoundError:
@@ -52,11 +52,27 @@ class Utils:
 
     def save_corpus(self, text_line: str = None, is_not_eol: bool = True):
         """ Save the text corpus (append), if it is an EOL then add a new line. """
-        with self.file_path.open("a", encoding="utf-8") as write_file:
+        with open(self.file_path, "a", encoding="utf-8") as write_file:
             if is_not_eol:
                 write_file.write(text_line + "\n")
             else:
                 write_file.write("\n")
+
+
+def get_file_path(path: str, file: str) -> str:
+    """ 
+    Function to get file path. 
+
+    :param path: folder path.
+    :param file: file name.
+    :return: the file path.
+    """
+    file_path = os.path.join(path, file)
+    if os.path.exists(file_path):
+        return file_path
+    else:
+        raise FileNotFoundError(
+            f"The file or folder '{file_path}' does not exist.")
 
 
 def extract_domain(seed_url: str) -> str:

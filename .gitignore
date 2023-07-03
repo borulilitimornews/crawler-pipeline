@@ -1,5 +1,6 @@
 nutch/
 solr/
+outputs/
 pipeline/data
 pipeline/lid
 Pipfile.lock

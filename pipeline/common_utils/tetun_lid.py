@@ -1,6 +1,7 @@
-from pathlib import Path
+import os
 import joblib
 from typing import List
+from pathlib import Path
 
 
 class TetunLid:
@@ -10,7 +11,7 @@ class TetunLid:
     """
 
     def __init__(
-        self, tetun_lang: str, lang_proba_threshold: float, lid_model_file_path: Path,
+        self, tetun_lang: str, lang_proba_threshold: float, lid_model_file_path: str,
     ) -> None:
         self.tetun_lang = tetun_lang
         self.lang_proba_threshold = lang_proba_threshold
@@ -19,10 +20,10 @@ class TetunLid:
     def load_lid_model(self) -> object:
         """ Loads  and return the language identification (LID) model. """
 
-        if not self.lid_model_file_path.exists():
+        if not os.path.exists(self.lid_model_file_path):
             print(f"Model file not found at: {self.lid_model_file_path}")
             return []
-        model = joblib.load(self.lid_model_file_path)
+        model = joblib.load(Path(self.lid_model_file_path))
 
         return model
 

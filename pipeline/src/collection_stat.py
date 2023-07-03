@@ -8,7 +8,6 @@ from bs4 import BeautifulSoup
 from bs4.builder import ParserRejectedMarkup
 from requests import exceptions
 from common_utils.utils import Utils, extract_domain
-from common_utils import config
 
 warnings.filterwarnings("ignore")
 
@@ -32,7 +31,6 @@ class CollectionStatistic:
         self.url_in_out_links = Utils(url_in_out_links_file_path)
         self.stats_in_out_links_file_path = Utils(stats_in_out_links_file_path)
         logging.basicConfig(
-            filename=config.LOG_FILE,
             level=logging.DEBUG,
             format="%(asctime)s %(levelname)s: %(message)s"
         )

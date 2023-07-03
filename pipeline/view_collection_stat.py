@@ -1,21 +1,33 @@
+import hydra
+from hydra.core.config_store import ConfigStore
+from common_utils.config import PipelineConfig
+from common_utils.utils import get_file_path
 from src.collection_stat import CollectionStatistic
-from common_utils import config
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 
 class ViewCollectionStatistic:
     """ This class shows the corpus summarization. """
 
-    def __init__(self) -> None:
+    def __init__(self, cfg) -> None:
         self.collection_stat = CollectionStatistic(
-            config.FINAL_CORPUS_FILE_PATH,
-            config.URL_INL_OUT_LINKS_FILE_PATH,
-            config.STATS_IN_OUT_LINKS_FILE_PATH
+            get_file_path(cfg.paths.data, cfg.files.final_corpus),
+            get_file_path(cfg.paths.data, cfg.files.url_in_out_links),
+            get_file_path(cfg.paths.data, cfg.files.stats_in_out_links)
         )
 
     def run(self) -> None:
         self.collection_stat.generate_stats()
 
 
-if __name__ == '__main__':
-    generate_stat = ViewCollectionStatistic()
-    generate_stat.run()
+cs = ConfigStore.instance()
+cs.store(name="pipeline_config", node=PipelineConfig)
+if __name__ == "__main__":
+    @hydra.main(config_path="conf", config_name="config")
+    def main(cfg: PipelineConfig):
+        generate_stat = ViewCollectionStatistic(cfg)
+        generate_stat.run()
+
+    main()

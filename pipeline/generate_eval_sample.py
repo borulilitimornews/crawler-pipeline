@@ -1,16 +1,22 @@
-from common_utils import config
+import hydra
+from hydra.core.config_store import ConfigStore
+from common_utils.config import PipelineConfig
+from common_utils.utils import get_file_path
 from src.get_sample_corpus import GetSampleCorpus
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 
 class GenerateEvalSample:
     """ Class for generating sample data. """
 
-    def __init__(self) -> None:
+    def __init__(self, cfg) -> None:
         self.generate_eval_sample = GetSampleCorpus(
-            config.FINAL_CORPUS_FILE_PATH,
-            config.EVAL_SAMPLE_DIRECTORY_PATH,
-            config.TOTAL_SAMPLES,
-            config.TOTAL_TEXT_PAGES
+            get_file_path(cfg.paths.data, cfg.files.final_corpus),
+            cfg.paths.eval_sample,
+            cfg.params.total_samples,
+            cfg.params.total_text_pages
         )
 
     def run(self):
@@ -20,6 +26,12 @@ class GenerateEvalSample:
             print(f"Insuficient sample: {e}")
 
 
-if __name__ == '__main__':
-    eval_samples = GenerateEvalSample()
-    eval_samples.run()
+cs = ConfigStore.instance()
+cs.store(name="pipeline_config", node=PipelineConfig)
+if __name__ == "__main__":
+    @hydra.main(config_path="conf", config_name="config")
+    def main(cfg: PipelineConfig):
+        eval_samples = GenerateEvalSample(cfg)
+        eval_samples.run()
+
+    main()
