@@ -3,7 +3,7 @@ import json
 import logging
 from pathlib import Path
 from common_utils.tetun_lid import TetunLid
-from common_utils.utils import Utils
+from common_utils.utils import Utils, remove_html_tags
 
 
 class GetCorpus:
@@ -114,7 +114,8 @@ class GetCorpus:
                         tetun_text = self.tetun_lid.get_tetun_text(
                             text_lines)  # Apply the Tetun LID model
                         for index, doc in enumerate(tetun_text):
-                            text_line = doc.strip()
+                            # Remove HTML tags if exist on the give text
+                            text_line = remove_html_tags(doc.strip())
                             if text_line not in seen_sentences:
                                 if len(text_line) == 0:
                                     consecutive_newlines += 1

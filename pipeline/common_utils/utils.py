@@ -1,6 +1,8 @@
 import os
-from typing import List
 import tldextract
+import re
+import html
+from typing import List
 
 
 class Utils:
@@ -61,7 +63,7 @@ class Utils:
 
 def get_file_path(path: str, file: str) -> str:
     """ 
-    Function to get file path. 
+    Function to get a file path. 
 
     :param path: folder path.
     :param file: file name.
@@ -79,7 +81,7 @@ def extract_domain(seed_url: str) -> str:
     """
     Gets the domain name from an url.
 
-    :param url: the input url.
+    :param seed_url: the input url.
     :return: the domain or domain with subdomain name.
     """
     exctracted = tldextract.extract(seed_url)
@@ -89,3 +91,11 @@ def extract_domain(seed_url: str) -> str:
         domain = subdomain + "." + domain
 
     return domain
+
+
+def remove_html_tags(text: str) -> str:
+    """ Remove HTML tags found on the given text. """
+    clean = re.compile('<.*?>')
+    text = re.sub(clean, '', text)
+    clean_text = html.unescape(text)
+    return clean_text
