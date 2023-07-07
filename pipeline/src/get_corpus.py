@@ -114,7 +114,7 @@ class GetCorpus:
                         tetun_text = self.tetun_lid.get_tetun_text(
                             text_lines)  # Apply the Tetun LID model
                         for index, doc in enumerate(tetun_text):
-                            # Remove HTML tags if exist on the give text
+                            # Remove HTML tags if exist on the given text
                             text_line = remove_html_tags(doc.strip())
                             if text_line not in seen_sentences:
                                 if len(text_line) == 0:
