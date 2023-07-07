@@ -25,7 +25,7 @@ Tetun crawler is a data collection pipeline designed to optimize the process of 
 - [ ] Install `git` and clone the source code of the pipeline:
 
 ```
-$ git clone https://gitlab.inesctec.pt/humanise/_imis/tetun-ir/tetun-crawler-pipeline.git
+$ git clone https://github.com/borulilitimornews/crawler-pipeline.git
 
 ```
 
